@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Deaffe",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

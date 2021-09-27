@@ -1,0 +1,7 @@
+{
+  "name": "Deaffe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
