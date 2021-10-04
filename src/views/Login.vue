@@ -3,24 +3,8 @@
     <ion-content class="ion-padding">
      <form novalidate @submit.prevent="onLogin">
         <ion-list>
-          <!-- <ion-item>
-            <ion-label position="stacked" color="primary">Username</ion-label>
-            <ion-input
-              v-model="username"
-              name="username"
-              type="text"
-              spellcheck="false"
-              autocapitalize="off"
-              required
-            ></ion-input>
-          </ion-item> -->
-
-          <!-- <ion-text color="danger">
-            <p v-show="!this.usernameValid ||this. submitted == true" padding-left>Username is required</p>
-          </ion-text> -->
-
           <ion-item>
-            <ion-label position="stacked" color="primary">Password</ion-label>
+            <ion-label position="stacked" color="primary">Code</ion-label>
             <ion-input v-model="password" name="password" type="password" required></ion-input>
           </ion-item>
 
@@ -54,13 +38,16 @@
 </style>
 
 <script>
-
-
 import { IonPage, IonContent, IonRow, IonCol, IonItem, IonInput, IonText, IonLabel, IonList, IonButton} from '@ionic/vue';
-
+import { TokenService } from '../services/token.service';
+import { useRouter } from 'vue-router';
 export default  {
   name: 'Home',
   components: { IonContent, IonPage, IonRow, IonCol, IonItem, IonInput, IonText, IonLabel, IonList, IonButton },
+  setup() {
+      const router = useRouter();
+      return { router };
+    },
   data(){
       return {
          username: "",
@@ -76,7 +63,11 @@ export default  {
     return true;
   },
   onLogin() {
-    console.log(this.password);
+    //TODO api login call
+
+    //Testing
+    TokenService.saveToken('bla');
+    this.router.push('/tabs/home');
   },
   }
 }

@@ -18,9 +18,7 @@
 
 <script>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import {mapActions} from "vuex";
-import {TokenService} from "@/services/token.service";
-import ExploreContainer from '@/components/ExploreContainer.vue';
+  import ExploreContainer from '@/components/ExploreContainer.vue';
 import { useRouter } from 'vue-router';
 
 export default  {
@@ -39,16 +37,10 @@ export default  {
     };
   },
   methods: {
-  ...mapActions("home", ["loadSecretArea"]),
-    async loadHomeData() {
-        await this.loadSecretArea().then((res) => {
-          this.msg = res.data;
-        });
-    },
     ionViewWillEnter() {
-    if(!TokenService.getToken()){
-      this.router.push('/login');
-    }
+    // if(!TokenService.getToken()){
+    //   this.router.push('/login');
+    // }
     }
   }
 }
