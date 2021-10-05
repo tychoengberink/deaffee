@@ -2,45 +2,56 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Home</ion-title>
+        <ion-buttons slot="start">
+          <ion-button @click="settingsButtonClick">
+            <ion-icon :icon="settingsOutline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+         <ion-title>Welcome </ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="lockButtonClick">
+             <ion-icon :icon="lockClosedOutline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+       
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Home</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ExploreContainer name="Home page" />
+      <ion-title>Orders</ion-title>
     </ion-content>
   </ion-page>
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-  import ExploreContainer from '@/components/ExploreContainer.vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonIcon } from '@ionic/vue';
+import { settingsOutline, lockClosedOutline } from 'ionicons/icons';
+import { AuthService } from '../services/auth.service';
 import { useRouter } from 'vue-router';
 
 export default  {
   name: 'Home',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
+  components: {  IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButtons, IonButton, IonIcon  },
   data() {
     return {
-      
+      user: null,
     }
   },
   setup() {
-    const router = useRouter();
-    return {
-      router,
-
-    };
+     const router = useRouter();
+    return{
+       router,
+      settingsOutline,  
+      lockClosedOutline,
+    }
   },
   methods: {
-    ionViewWillEnter() {
-    // if(!TokenService.getToken()){
-    //   this.router.push('/login');
-    // }
+    lockButtonClick() {
+      AuthService.signOut();
+      this.router.push('/login');
+    },
+
+    settingsButtonClick() {
+      this.router.push('/settings');
     }
   }
 }

@@ -13,6 +13,11 @@ const routes = [
     component: () => import('@/views/Login.vue')
   },
   {
+    name: 'Settings',
+    path: '/settings',
+    component: () => import('@/views/Settings.vue')
+  },
+  {
     path: '/tabs/',
     component: Tabs,
     children: [
