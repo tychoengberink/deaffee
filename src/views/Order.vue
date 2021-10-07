@@ -12,7 +12,6 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Order page" />
     </ion-content>
   </ion-page>
 </template>
@@ -23,34 +22,17 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent,
-  modalController
+  IonContent
 } from "@ionic/vue";
-import ExploreContainer from "@/components/ExploreContainer.vue";
-import AddTableModal from "@/components/AddTableModal.vue";
 
 export default {
   name: "Order",
   components: {
-    ExploreContainer,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
     IonPage,
-  },
-  mounted(){
-    this.openModal();
-  },
-  setup() {
-    const openModal = async () => {
-      const modal = await modalController.create({
-        component: AddTableModal, //Modal is name of the component to render inside ionic modal
-      });
-      return modal.present();
-    };
-
-    return { openModal };
   },
 };
 </script>

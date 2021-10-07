@@ -7,7 +7,7 @@
             <ion-icon :icon="settingsOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-title>Welcome </ion-title>
+        <ion-title mode="ios">Welcome </ion-title>
         <ion-buttons slot="end">
           <ion-button @click="lockButtonClick">
             <ion-icon :icon="lockClosedOutline"></ion-icon>
@@ -34,6 +34,11 @@
           </ion-col>
         </ion-row>
       </ion-grid>
+      <ion-fab v-if="!this.activeTable" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button @click="addTableClick">
+          <ion-icon :icon="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </ion-content>
   </ion-page>
 </template>
@@ -51,10 +56,17 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonFab,
+  IonFabButton,
+  IonList,
+  IonItem,
+  modalController,
 } from "@ionic/vue";
-import { settingsOutline, lockClosedOutline } from "ionicons/icons";
-import { AuthService } from "../services/auth.service";
+import { settingsOutline, lockClosedOutline, add } from "ionicons/icons";
+// import { OrderService } from "../services/order.service";
+import { mapActions, mapGetters } from "vuex";
 import { useRouter } from "vue-router";
+import addTableModal from '@/components/AddTableModal.vue'
 
 export default {
   name: "Home",
@@ -70,6 +82,10 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
+    IonFab,
+    IonFabButton,
+    IonList,
+    IonItem,
   },
   data() {
     return {
@@ -83,21 +99,47 @@ export default {
       router,
       settingsOutline,
       lockClosedOutline,
+      add,
     };
   },
+
+  computed: {
+   ...mapGetters("order",['activeTable'])
+  },
+
   // created() {
   //   axios.get()
   //     .then(res => this.orders = res.data)
   // }
+
   methods: {
-    lockButtonClick() {
-      AuthService.signOut();
-      this.router.push("/login");
+    ...mapActions("auth", ["signOut"]),
+
+    async lockButtonClick() {
+      // AuthService.signOut();
+      await this.signOut().then(() => {
+        this.router.push("/login");
+      });
     },
 
     settingsButtonClick() {
       this.router.push("/settings");
     },
+
+    async addTableClick() {
+      const modal = await modalController.create({
+        component: addTableModal,
+        cssClass: "dialog-modal",
+      });
+      
+      await modal.present();
+      await modal.onDidDismiss();
+      this.router.push("/tabs/order");
+    },
+
+    async refresh() {
+ 
+   },
   },
 };
 </script>

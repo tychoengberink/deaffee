@@ -4,7 +4,7 @@ import router from './router';
 import { store } from './store';
 import  {ApiService}  from "./services/api.service";
 import  {TokenService} from "./services/token.service";
-
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { IonicVue } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
@@ -26,12 +26,16 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import './theme/global.css';
+
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(store);
 
 ApiService.init(process.env.VUE_APP_ROOT_API);
+
 if (TokenService.getToken()) {
   ApiService.setHeader();
   ApiService.mountRequestInterceptor();
@@ -41,3 +45,5 @@ if (TokenService.getToken()) {
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT)

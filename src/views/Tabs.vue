@@ -8,7 +8,7 @@
           <ion-label>Home</ion-label>
         </ion-tab-button>
           
-        <ion-tab-button tab="order" href="/tabs/order">
+        <ion-tab-button :disabled="!this.activeTable" tab="order" href="/tabs/order">
           <ion-icon :icon="clipboardOutline" />
           <ion-label>Order</ion-label>
         </ion-tab-button>
@@ -20,6 +20,7 @@
 <script>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { clipboardOutline, homeOutline } from 'ionicons/icons';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Tabs',
@@ -29,6 +30,11 @@ export default {
       clipboardOutline,  
       homeOutline,
     }
-  }
+  },
+
+  computed: {
+   ...mapGetters("order",['activeTable'])
+  },
+
 }
 </script>
