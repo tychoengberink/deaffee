@@ -3,7 +3,9 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+          <ion-button @click="dismissModal">
+            <ion-icon :icon="closeOutline"></ion-icon>
+          </ion-button>
         </ion-buttons>
         <ion-title mode="ios">Conversation </ion-title>
       </ion-toolbar>
@@ -12,7 +14,7 @@
       <ion-grid>
         <ion-row>
           <ion-col>
-            <conversation-list />
+            <!-- <conversation-list /> -->
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -27,31 +29,44 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonButtons,
-  IonBackButton,
+  IonButton,
   IonRow,
   IonCol,
   IonGrid,
+  IonButtons,
+  IonIcon,
+  modalController,
 } from "@ionic/vue";
-import ConversationList from "../components/ConversationList.vue";
+import { closeOutline } from "ionicons/icons";
+
+// import ConversationList from "../components/ConversationList.vue";
 
 export default {
-  name: "Settings",
+  name: "ConversationOverviewModal",
   components: {
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
     IonPage,
-    IonButtons,
-    IonBackButton,
+    IonButton,
     IonRow,
     IonCol,
     IonGrid,
-    ConversationList,
+    IonButtons,
+    IonIcon,
+    // ConversationList,
   },
   data() {
-    return {};
+    return {
+      closeOutline,
+    };
+  },
+
+  methods: {
+    dismissModal() {
+      modalController.dismiss();
+    },
   },
 };
 </script>

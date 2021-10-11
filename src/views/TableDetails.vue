@@ -1,46 +1,31 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Order</ion-title>
-      </ion-toolbar>
-    </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Order</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
+      <order-list :items="orders" />
     </ion-content>
   </ion-page>
 </template>
 
 <script>
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent
-} from "@ionic/vue";
-import { useRoute } from 'vue-router';
-
+import { IonPage, IonContent } from "@ionic/vue";
+import OrderList from "../components/OrderList.vue";
 
 export default {
   name: "Order",
   components: {
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonPage,
+    OrderList,
   },
-
-   setup() {
-    const route = useRoute();
-    const { id } = route.params;
-    return { id };
-  }
+  data() {
+    return {
+      orders: [
+        {
+          id: 1,
+          products: [{ id: 0, name: "Coffee", amount: 2 }],
+        },
+      ],
+    };
+  },
 };
 </script>

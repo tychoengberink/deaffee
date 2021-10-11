@@ -75,5 +75,7 @@ export default {
   data() {
     return {};
   },
+
+  //TODO: Save pin to API
 };
 </script>

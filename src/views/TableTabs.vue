@@ -7,13 +7,20 @@
           <ion-label>Conversation</ion-label>
         </ion-tab-button>
           
-        <ion-tab-button :disabled="!this.finishedTalking" tab="details" href="/details">
+        <ion-tab-button  tab="details" href="/tabs/tabledetails">
           <ion-label>Table details</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
 </template>
+<style lang="scss" scoped>
+ion-tab-button {        
+        ion-label {  
+            font-size: 18px;
+        }
+    }
+</style>
 
 <script>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonPage, IonRouterOutlet } from '@ionic/vue';

@@ -1,25 +1,25 @@
 <template>
   <ion-content>
     <ion-list>
-      <order-list-item v-for="order in items" :key="order.id" :order="order">
-      </order-list-item>
+      <table-list-item v-for="table in tables" :key="table.id" :table="table">
+      </table-list-item>
     </ion-list>
   </ion-content>
 </template>
 
 <script>
 import { IonList, IonContent } from "@ionic/vue";
-import OrderListItem from "./OrderListItem.vue";
+import TableListItem from "./TableListItem.vue";
 
 export default {
   name: "ConversationList",
   components: {
     IonList,
     IonContent,
-    OrderListItem,
+    TableListItem,
   },
   props: {
-    items: Array,
+    tables: Array,
   },
 };
 </script>

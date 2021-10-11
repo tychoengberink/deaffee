@@ -3,15 +3,15 @@
     <ion-grid fixed>
       <ion-row class="ion-align-items-start cover-large">
         <ion-col>
-          <conversation-list :items="conversation"/>
+          <conversation-list :items="conversation" />
           <ion-fab vertical="bottom" horizontal="start">
-            <ion-fab-button>
+            <ion-fab-button @click="addWaiterSentenceClick">
               <ion-icon :icon="chatboxOutline"></ion-icon>
             </ion-fab-button>
           </ion-fab>
 
           <ion-fab vertical="bottom" horizontal="end">
-            <ion-fab-button>
+            <ion-fab-button @click="addCustomerSentenceClick">
               <ion-icon :icon="micOutline"></ion-icon>
             </ion-fab-button>
           </ion-fab>
@@ -19,10 +19,14 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="block" @click="conversationOverviewClick">Show conversation</ion-button>
+          <ion-button expand="block" @click="conversationOverviewClick"
+            >Show conversation</ion-button
+          >
         </ion-col>
         <ion-col>
-          <ion-button expand="block" @click="finishTalkingClick">Finish Talking</ion-button>
+          <ion-button expand="block" @click="finishTalkingClick"
+            >Finish Talking</ion-button
+          >
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -51,13 +55,15 @@ import {
   IonRow,
   IonCol,
   IonButton,
+  modalController,
 } from "@ionic/vue";
-import { ref } from "vue";
 import { micOutline, chatboxOutline } from "ionicons/icons";
 import { mapGetters } from "vuex";
-import ConversationList from '../components/ConversationList.vue';
+import ConversationList from "../components/ConversationList.vue";
+import ConversationOverviewModal from "../components/modal/ConversationOverviewModal.vue";
+import AddCustomerSentenceModal from "../components/modal/AddCustomerSentenceModal.vue";
+import AddWaiterSentenceModal from "../components/modal/AddWaiterSentenceModal.vue";
 import { useRouter } from "vue-router";
-
 
 export default {
   name: "Conversation",
@@ -72,56 +78,17 @@ export default {
     IonPage,
     ConversationList,
   },
- 
+  //TODO: Load conversation from API
+  setup() {
+    const router = useRouter();
+    return {
+      router,
+    };
+  },
+
   data() {
     return {
-      conversation: ref([
-        {
-          id: 1,
-          type: "waiter",
-          text:
-            "asfasdfsffffffffafds fsdf asdfasdf sdfs dfds sdfsdf sdfsd fdsf sdsf sdfdf sd fs",
-        },
-        {
-          id: 2,
-          type: "waiter",
-          text:
-            "asfasdfsffffffffafds fsdf asdfasdf sdfs dfds sdfsdf sdfsd fdsf sdsf sdfdf sd fs",
-        },
-        { id: 3, type: "customer", text: "asdf" },
-        {
-          id: 4,
-          type: "customer",
-          text:
-            "asfasdfsffffffffafds fsdf asdfasdf sdfs dfds sdfsdf sdfsd fdsf sdsf sdfdf sd fs",
-        },
-        { id: 5, type: "customer", text: "fds" },
-        {
-          id: 6,
-          type: "customer",
-          text:
-            "asfasdfsffffffffafds fsdf asdfasdf sdfs dfds sdfsdf sdfsd fdsf sdsf sdfdf sd fs",
-        },
-        {
-          id: 7,
-          type: "waiter",
-          text:
-            "asfasdfsffffffffafds fsdf asdfasdf sdfs dfds sdfsdf sdfsd fdsf sdsf sdfdf sd fs",
-        },
-        {
-          id: 8,
-          type: "customer",
-          text:
-            "asfasdfsffffffffafds fsdf asdfasdf sdfs dfds sdfsdf sdfsd fdsf sdsf sdfdf sd fs",
-        },
-        { id: 9, type: "waiter", text: "afsdv" },
-        {
-          id: 10,
-          type: "customer",
-          text:
-            "asfasdfsffffffffafds fsdf asdfasdf sdfs dfds sdfsdf sdfsd fdsf sdsf sdfdf sd fs",
-        },
-      ]),
+      conversation: [],
       micOutline,
       chatboxOutline,
     };
@@ -129,9 +96,44 @@ export default {
   methods: {
     ...mapGetters("order", ["activeTable"]),
 
-    conversationOverviewClick(){
-      this.router.push("tabs/conversation/overview");
-    }
+    conversationOverviewClick() {
+      this.openConversationModal();
+    },
+
+    finishTalkingClick() {
+      this.router.push({name: "TableDetails"})
+    },
+
+    addCustomerSentenceClick() {
+      this.openCustomerSentenceModal();
+    },
+
+    addWaiterSentenceClick() {
+      this.openWaiterSentenceModal();
+    },
+
+    async openConversationModal() {
+      const modal = await modalController.create({
+        component: ConversationOverviewModal,
+      });
+      return modal.present();
+    },
+
+    async openWaiterSentenceModal() {
+      const modal = await modalController.create({
+        component: AddWaiterSentenceModal,
+        cssClass: "dialog-modal",
+      });
+      return modal.present();
+    },
+
+    async openCustomerSentenceModal() {
+      const modal = await modalController.create({
+        component: AddCustomerSentenceModal,
+        cssClass: "dialog-modal",
+      });
+      return modal.present();
+    },
   },
 };
 </script>

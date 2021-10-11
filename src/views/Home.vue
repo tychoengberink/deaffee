@@ -20,21 +20,22 @@
         <ion-row>
           <ion-col>
             <div class="ion-text-start">
-              <ion-title color="primary">Orders</ion-title>
+              <ion-title color="primary">Tables</ion-title>
             </div>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-list>
-              <ion-item v-for="order in orders" :key="order.id">
-                {{ order.id }}
-              </ion-item>
-            </ion-list>
+            <table-list :tables="tables"/>
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-fab v-if="!this.activeTable" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab
+        v-if="!this.activeTable"
+        vertical="bottom"
+        horizontal="end"
+        slot="fixed"
+      >
         <ion-fab-button @click="addTableClick">
           <ion-icon :icon="add"></ion-icon>
         </ion-fab-button>
@@ -58,15 +59,14 @@ import {
   IonCol,
   IonFab,
   IonFabButton,
-  IonList,
-  IonItem,
   modalController,
 } from "@ionic/vue";
 import { settingsOutline, lockClosedOutline, add } from "ionicons/icons";
 // import { OrderService } from "../services/order.service";
 import { mapActions, mapGetters } from "vuex";
 import { useRouter } from "vue-router";
-import addTableModal from '@/components/AddTableModal.vue'
+import addTableModal from "@/components/modal/AddTableModal.vue";
+import TableList from '@/components/TableList.vue';
 
 export default {
   name: "Home",
@@ -84,13 +84,12 @@ export default {
     IonCol,
     IonFab,
     IonFabButton,
-    IonList,
-    IonItem,
+    TableList
   },
   data() {
     return {
       user: null,
-      orders: [],
+      tables: [],
     };
   },
   setup() {
@@ -104,9 +103,9 @@ export default {
   },
 
   computed: {
-   ...mapGetters("order",['activeTable'])
+    ...mapGetters("order", ["activeTable"]),
   },
-
+  //TODO: Load tables from API
   // created() {
   //   axios.get()
   //     .then(res => this.orders = res.data)
@@ -119,12 +118,12 @@ export default {
     async lockClick() {
       // AuthService.signOut();
       await this.signOut().then(() => {
-        this.router.push("/login");
+        this.router.push({ name: "Login" });
       });
     },
 
     settingsClick() {
-      this.router.push("/settings");
+      this.router.push({ name: "Settings" });
     },
 
     async addTableClick() {
@@ -132,19 +131,17 @@ export default {
         component: addTableModal,
         cssClass: "dialog-modal",
       });
-      
+
       await modal.present();
       await modal.onDidDismiss();
 
-      if(this.activeTable){
-      this.setFinished(false);
-      this.router.push({ name: 'Conversation' });
+      if (this.activeTable) {
+        this.setFinished(false);
+        this.router.push({ name: "Conversation" });
       }
     },
 
-    async refresh() {
- 
-   },
+    async refresh() {},
   },
 };
 </script>

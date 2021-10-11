@@ -27,6 +27,7 @@ const routes = [
         redirect: "/tabs/home",
       },
       {
+        name: "Home",
         path: "home",
         component: () => import("@/views/Home.vue"),
       },
@@ -38,16 +39,10 @@ const routes = [
             name: "Conversation",
             path: "conversation",
             component: () => import("@/views/Conversation.vue"),
-            children: [
-              {
-                path: "/overview",
-                component: () => import("@/views/ConversationOverview.vue"),
-              },
-            ],
           },
           {
-            name: "details",
-            path: "details",
+            name: "TableDetails",
+            path: "tabledetails",
             component: () => import("@/views/TableDetails.vue"),
           },
         ],

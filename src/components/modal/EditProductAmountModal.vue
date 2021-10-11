@@ -14,14 +14,16 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="stacked">Table number</ion-label>
+            <ion-label position="stacked">amount</ion-label>
             <ion-input v-model="tableNumber" type="number"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
-       <ion-row>
+      <ion-row>
         <ion-col>
-          <ion-button expand="block" @click="addTableClick">Add table</ion-button>
+          <ion-button expand="block" @click="addTableClick"
+            >Add table</ion-button
+          >
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -43,18 +45,16 @@ import {
   IonItem,
   IonInput,
   IonLabel,
-  modalController,
 } from "@ionic/vue";
 import { closeOutline } from "ionicons/icons";
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
 
 export default defineComponent({
-  name: "addTableModal",
+  name: "editProductAmountModal",
   data() {
     return {
       closeOutline,
-      tableNumber: "",
     };
   },
   components: {
@@ -66,23 +66,23 @@ export default defineComponent({
     IonButtons,
     IonIcon,
     IonGrid,
-  IonRow,
-  IonCol,
-  IonItem,
-   IonInput,
-  IonLabel,
+    IonRow,
+    IonCol,
+    IonItem,
+    IonInput,
+    IonLabel,
   },
   methods: {
     ...mapActions("order", ["saveActiveTable"]),
 
     dismissModal() {
-      modalController.dismiss();
+      this.modalController.dismiss();
     },
 
-    addTableClick(){
+    addTableClick() {
       this.saveActiveTable(this.tableNumber);
       this.dismissModal();
-    }
+    },
   },
 });
 </script>
