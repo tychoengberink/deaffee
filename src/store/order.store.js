@@ -1,24 +1,36 @@
-// import { OrderService } from "@/services/order.service";
+import { OrderService } from "@/services/order.service";
 
 const state = {
-    table: null,
+    table: OrderService.getActiveTable(),
+    finished: OrderService.getFinishedTalking(),
 };
 
 const getters = {
     activeTable: (state) => {
         return state.table;
     },
+    finishedTalking: (state) => {
+        return state.finshed; 
+    }
 };
 
 const actions = {
-    setActiveOrder: ({commit}, tablenumber) => {
+    saveActiveTable: ({commit}, tablenumber) => {
         commit('activeTable', tablenumber);
+    },
+
+    setFinished: ({commit}, finished) => {
+        commit('finishedTalking', finished);
     }
 };
 
 const mutations = {
-    activeTable(state, table){
-        state.table = table;
+    activeTable(table){
+        OrderService.saveActiveTable(table);
+    },
+
+    finishedTalking(finished){
+        OrderService.saveFinishedTalking(finished);
     }
 }
 

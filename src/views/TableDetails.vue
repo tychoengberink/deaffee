@@ -24,6 +24,8 @@ import {
   IonTitle,
   IonContent
 } from "@ionic/vue";
+import { useRoute } from 'vue-router';
+
 
 export default {
   name: "Order",
@@ -34,5 +36,11 @@ export default {
     IonContent,
     IonPage,
   },
+
+   setup() {
+    const route = useRoute();
+    const { id } = route.params;
+    return { id };
+  }
 };
 </script>

@@ -3,13 +3,13 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button @click="settingsButtonClick">
+          <ion-button @click="settingsClick">
             <ion-icon :icon="settingsOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
         <ion-title mode="ios">Welcome </ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="lockButtonClick">
+          <ion-button @click="lockClick">
             <ion-icon :icon="lockClosedOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -114,15 +114,16 @@ export default {
 
   methods: {
     ...mapActions("auth", ["signOut"]),
+    ...mapActions("order", ["setFinishedTalking"]),
 
-    async lockButtonClick() {
+    async lockClick() {
       // AuthService.signOut();
       await this.signOut().then(() => {
         this.router.push("/login");
       });
     },
 
-    settingsButtonClick() {
+    settingsClick() {
       this.router.push("/settings");
     },
 
@@ -134,7 +135,11 @@ export default {
       
       await modal.present();
       await modal.onDidDismiss();
-      this.router.push("/tabs/order");
+
+      if(this.activeTable){
+      this.setFinished(false);
+      this.router.push({ name: 'Conversation' });
+      }
     },
 
     async refresh() {

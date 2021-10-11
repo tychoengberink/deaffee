@@ -5,32 +5,14 @@
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title mode="ios">Settings </ion-title>
+        <ion-title mode="ios">Conversation </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-grid>
         <ion-row>
           <ion-col>
-             <div class="ion-text-start">
-        <h4>Change PIN</h4>
-      </div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="stacked">PIN</ion-label>
-              <ion-input></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-         <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="stacked">Retype PIN</ion-label>
-              <ion-input></ion-input>
-            </ion-item>
+            <conversation-list />
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -47,13 +29,11 @@ import {
   IonContent,
   IonButtons,
   IonBackButton,
-  IonInput,
-  IonItem,
-  IonLabel,
   IonRow,
-    IonCol,
-    IonGrid
+  IonCol,
+  IonGrid,
 } from "@ionic/vue";
+import ConversationList from "../components/ConversationList.vue";
 
 export default {
   name: "Settings",
@@ -65,12 +45,10 @@ export default {
     IonPage,
     IonButtons,
     IonBackButton,
-    IonInput,
-    IonItem,
-    IonLabel,
     IonRow,
     IonCol,
-    IonGrid
+    IonGrid,
+    ConversationList,
   },
   data() {
     return {};

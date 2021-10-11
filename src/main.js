@@ -6,9 +6,11 @@ import  {ApiService}  from "./services/api.service";
 import  {TokenService} from "./services/token.service";
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { IonicVue } from '@ionic/vue';
+import VueVirtualScroller from 'vue-virtual-scroller';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
 /* Basic CSS for apps built with Ionic */
 import '@ionic/vue/css/normalize.css';
@@ -32,6 +34,7 @@ import './theme/global.css';
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
+  .use(VueVirtualScroller)
   .use(store);
 
 ApiService.init(process.env.VUE_APP_ROOT_API);
