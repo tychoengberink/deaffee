@@ -12,9 +12,9 @@
       <ion-grid>
         <ion-row>
           <ion-col>
-             <div class="ion-text-start">
-        <h4>Change PIN</h4>
-      </div>
+            <div class="ion-text-start">
+              <h4>Change PIN</h4>
+            </div>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -25,7 +25,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-         <ion-row>
+        <ion-row>
           <ion-col>
             <ion-item>
               <ion-label position="stacked">Retype PIN</ion-label>
@@ -51,8 +51,8 @@ import {
   IonItem,
   IonLabel,
   IonRow,
-    IonCol,
-    IonGrid
+  IonCol,
+  IonGrid,
 } from "@ionic/vue";
 
 export default {
@@ -70,12 +70,16 @@ export default {
     IonLabel,
     IonRow,
     IonCol,
-    IonGrid
+    IonGrid,
   },
   data() {
     return {};
   },
 
-  //TODO: Save pin to API
+  methods: {
+    savePin() {
+      //TODO: Save pin to API
+    },
+  },
 };
 </script>

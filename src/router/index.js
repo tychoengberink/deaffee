@@ -36,14 +36,14 @@ const routes = [
         component: TableTabs,
         children: [
           {
-            name: "Conversation",
-            path: "conversation",
-            component: () => import("@/views/Conversation.vue"),
-          },
-          {
             name: "TableDetails",
             path: "tabledetails",
             component: () => import("@/views/TableDetails.vue"),
+          },
+          {
+            name: "Conversation",
+            path: "conversation",
+            component: () => import("@/views/Conversation.vue"),
           },
         ],
       },

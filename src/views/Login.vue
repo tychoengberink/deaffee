@@ -3,10 +3,10 @@
     <ion-content padding>
       <form novalidate @submit.prevent="onLogin">
         <ion-grid>
-          <ion-row >
-            <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <ion-row>
+            <ion-col align-self-center size-md="12" size-lg="12" size-xs="12">
               <ion-img :src="require('@/images/logo.png')"></ion-img>
-          
+
               <ion-item text-center>
                 <ion-label position="stacked" color="primary">Code</ion-label>
                 <ion-input
@@ -31,8 +31,17 @@
               >
                 Code is wrong
               </ion-text>
-          
+
               <ion-button type="submit" expand="block">Login</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col align-self-center size-md="12" size-lg="12" size-xs="12">
+              <ion-spinner
+                v-if="this.loading"
+                color="primary"
+                name="crescent"
+              ></ion-spinner>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -40,11 +49,16 @@
     </ion-content>
   </ion-page>
 </template>
-<style scoped>
+<style lang="scss" scoped>
+ion-row {
+  ion-spinner {
+    text-align: center;
+  }
+}
 ion-img {
- width: 50%;
- margin-left: 25%;
- margin-top: 15%;
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 15%;
 }
 </style>
 <script>
@@ -60,9 +74,12 @@ import {
   IonButton,
   IonImg,
   IonCol,
+  IonSpinner,
 } from "@ionic/vue";
-import { TokenService } from "../services/token.service";
+import { TokenService } from "@/services/token.service";
 import { useRouter } from "vue-router";
+// import { UserService } from "@/services/user.service";
+
 export default {
   name: "Home",
   components: {
@@ -77,6 +94,7 @@ export default {
     IonButton,
     IonImg,
     IonCol,
+    IonSpinner,
   },
   setup() {
     const router = useRouter();
@@ -87,12 +105,14 @@ export default {
       username: null,
       password: null,
       submitted: false,
+      loading: false,
       img: null,
     };
   },
   methods: {
     passwordValid() {
       if (this.password == null) {
+        this.loading = false;
         return false;
       } else {
         return true;
@@ -104,13 +124,16 @@ export default {
     },
 
     onLogin() {
+      this.loading = true;
       this.submitted = true;
       if (this.passwordValid()) {
         //TODO api login call
         //Testing
+        // UserService.saveUser();
         TokenService.saveToken("bla");
         this.router.push("/tabs/home");
         this.submitted = false;
+        this.loading = false;
       }
     },
   },

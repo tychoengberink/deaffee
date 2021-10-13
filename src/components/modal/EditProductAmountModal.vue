@@ -6,7 +6,7 @@
           <ion-icon :icon="closeOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title>Add table</ion-title>
+      <ion-title>Edit product</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
@@ -15,14 +15,17 @@
         <ion-col>
           <ion-item>
             <ion-label position="stacked">amount</ion-label>
-            <ion-input v-model="tableNumber" type="number"></ion-input>
+            <ion-input
+              v-model="this.editedProduct.amount"
+              type="number"
+            ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="block" @click="addTableClick"
-            >Add table</ion-button
+          <ion-button expand="block" @click="editProductClick"
+            >Edit amount</ion-button
           >
         </ion-col>
       </ion-row>
@@ -45,15 +48,17 @@ import {
   IonItem,
   IonInput,
   IonLabel,
+  modalController,
 } from "@ionic/vue";
 import { closeOutline } from "ionicons/icons";
 import { defineComponent } from "vue";
-import { mapActions } from "vuex";
 
 export default defineComponent({
   name: "editProductAmountModal",
+  props: ["product"],
   data() {
     return {
+      editedProduct: this.product,
       closeOutline,
     };
   },
@@ -73,14 +78,12 @@ export default defineComponent({
     IonLabel,
   },
   methods: {
-    ...mapActions("order", ["saveActiveTable"]),
-
     dismissModal() {
-      this.modalController.dismiss();
+      modalController.dismiss();
     },
 
-    addTableClick() {
-      this.saveActiveTable(this.tableNumber);
+    editProductClick() {
+      //TODO save product order to api
       this.dismissModal();
     },
   },

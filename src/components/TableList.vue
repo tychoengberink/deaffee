@@ -23,19 +23,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.sentence-left {
-  text-align: left;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 30px;
-}
-
-.sentence-right {
-  text-align: right;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 30px;
-}
-</style>

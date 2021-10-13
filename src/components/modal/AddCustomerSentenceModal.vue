@@ -15,7 +15,7 @@
         <ion-col>
           <ion-item>
             <ion-label position="stacked">Sentence</ion-label>
-            <ion-textarea v-model="customerSentence"></ion-textarea>
+            <ion-textarea v-model="speechToTextOutput"></ion-textarea>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -57,12 +57,14 @@ import { SpeechRecognition } from "@ionic-native/speech-recognition";
 
 export default defineComponent({
   name: "addTableModal",
+  props: ["conversation"],
   data() {
     return {
       closeOutline,
-      customerSentence: "",
+      speechToTextOutput: "",
       listening: false,
       matches: [],
+      editConversation: this.conversation,
     };
   },
   components: {
@@ -90,20 +92,13 @@ export default defineComponent({
     pushToTalk() {
       this.listening = true;
 
-      //DEBUG
-      SpeechRecognition.isRecognitionAvailable().then((available) =>
-        console.debug(available)
-      );
-
       // Check permission
-      SpeechRecognition.hasPermission().then((hasPermission) =>
-        console.log(hasPermission)
-      );
-      // Request permissions
-      SpeechRecognition.requestPermission().then(
-        () => console.log("Granted"),
-        () => console.log("Denied")
-      );
+      SpeechRecognition.hasPermission().then((hasPermision) => {
+        if (!hasPermision) {
+          // Request permissions
+          SpeechRecognition.requestPermission();
+        }
+      });
 
       SpeechRecognition.startListening({
         language: "en-US",
@@ -111,19 +106,20 @@ export default defineComponent({
         showPartial: true,
       }).subscribe(
         (matches) => {
-          this.customerSentence = matches.toString();
+          this.speechToTextOutput = matches.toString();
           this.matches = matches;
         },
         (onerror) => console.log("error:", onerror)
       );
     },
     pushToStop() {
-      this.customerSentence = this.matches[0];
+      var sentence = { text: this.matches[0], type: "customer" };
       SpeechRecognition.stopListening();
       this.listening = false;
       this.dismissModal();
 
-      //TODO add sentences to conversation
+      //TODO save sentences to API
+      this.editConversation.sentences.push(sentence);
     },
   },
 });

@@ -42,6 +42,7 @@ export default {
       items: Array
   }
 }
+//TODO: add text to speech per line
 </script>
 
 <style>

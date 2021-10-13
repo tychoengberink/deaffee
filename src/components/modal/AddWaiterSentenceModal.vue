@@ -53,10 +53,13 @@ import { mapActions } from "vuex";
 
 export default defineComponent({
   name: "addTableModal",
+  props: ["conversation"],
   data() {
+    console.log(this.conversation);
     return {
       closeOutline,
       waiterSentence: "",
+      editConversation: this.conversation,
     };
   },
   components: {
@@ -82,7 +85,8 @@ export default defineComponent({
     },
 
     addWaiterSentence() {
-      //TODO add sentences to conversation
+      this.editConversation.sentences.push({id: 4, text: this.waiterSentence, type: "waiter"})
+      //TODO save sentences to API
     },
   },
 });

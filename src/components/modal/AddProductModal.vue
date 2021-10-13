@@ -6,7 +6,7 @@
           <ion-icon :icon="closeOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title>Add table</ion-title>
+      <ion-title>Add product</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
@@ -14,14 +14,32 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="stacked">Table number</ion-label>
-            <ion-input v-model="tableNumber" type="number"></ion-input>
+            <ion-label position="stacked">Product</ion-label>
+            <ion-input v-model="product.name"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Amount</ion-label>
+            <ion-input v-model="product.amount" type="number"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
        <ion-row>
         <ion-col>
-          <ion-button expand="block" @click="addTableClick">Add table</ion-button>
+          <ion-item>
+            <ion-label position="stacked">Price</ion-label>
+            <ion-input v-model="product.price" type="number"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" @click="addProductClick"
+            >Add product</ion-button
+          >
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -47,14 +65,16 @@ import {
 } from "@ionic/vue";
 import { closeOutline } from "ionicons/icons";
 import { defineComponent } from "vue";
-import { mapActions } from "vuex";
 
 export default defineComponent({
   name: "addTableModal",
+  props: ["order"],
   data() {
+    console.log(this.order);
     return {
       closeOutline,
-      tableNumber: "",
+      editOrder: this.order,
+      product: { name: null, amount: 0 },
     };
   },
   components: {
@@ -66,23 +86,23 @@ export default defineComponent({
     IonButtons,
     IonIcon,
     IonGrid,
-  IonRow,
-  IonCol,
-  IonItem,
-   IonInput,
-  IonLabel,
+    IonRow,
+    IonCol,
+    IonItem,
+    IonInput,
+    IonLabel,
   },
   methods: {
-    ...mapActions("order", ["saveActiveTable"]),
 
     dismissModal() {
       modalController.dismiss();
     },
 
-    addTableClick(){
-      this.saveActiveTable(this.tableNumber);
+    addProductClick() {
+      //TODO save product order to api
+      this.editOrder.products.push(this.product);
       this.dismissModal();
-    }
+    },
   },
 });
 </script>

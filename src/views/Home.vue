@@ -7,7 +7,7 @@
             <ion-icon :icon="settingsOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-title mode="ios">Welcome </ion-title>
+        <ion-title mode="ios">Welcome {{ user.name }}!</ion-title>
         <ion-buttons slot="end">
           <ion-button @click="lockClick">
             <ion-icon :icon="lockClosedOutline"></ion-icon>
@@ -15,34 +15,39 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <div class="ion-text-start">
-              <ion-title color="primary">Tables</ion-title>
-            </div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <table-list :tables="tables"/>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-fab
-        v-if="!this.activeTable"
-        vertical="bottom"
-        horizontal="end"
-        slot="fixed"
-      >
-        <ion-fab-button @click="addTableClick">
-          <ion-icon :icon="add"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-    </ion-content>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-title color="primary">Tables</ion-title>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-start cover-large">
+        <ion-col>
+          <ion-content>
+            <table-list :tables="tables" />
+          </ion-content>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button @click="addTableClick">
+        <ion-icon :icon="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </ion-page>
 </template>
+
+<style lang="scss" scoped>
+ion-grid {
+  height: 100%;
+  ion-row.cover-large {
+    height: 95%;
+    ion-col {
+      height: 100%;
+    }
+  }
+}
+</style>
 
 <script>
 import {
@@ -62,11 +67,11 @@ import {
   modalController,
 } from "@ionic/vue";
 import { settingsOutline, lockClosedOutline, add } from "ionicons/icons";
-// import { OrderService } from "../services/order.service";
 import { mapActions, mapGetters } from "vuex";
 import { useRouter } from "vue-router";
 import addTableModal from "@/components/modal/AddTableModal.vue";
-import TableList from '@/components/TableList.vue';
+import TableList from "@/components/TableList.vue";
+import { ApiService } from "../services/api.service";
 
 export default {
   name: "Home",
@@ -84,12 +89,71 @@ export default {
     IonCol,
     IonFab,
     IonFabButton,
-    TableList
+    TableList,
   },
   data() {
     return {
-      user: null,
-      tables: [],
+      user: { name: "test" },
+      tables: [
+        // {
+        //   id: 1,
+        //   orders: [
+        //     {
+        //       id: 1,
+        //       products: [{ id: 0, name: "Coffee", amount: 2, price: 2.0 }],
+        //       total: 4,
+        //       payed: false,
+        //     },
+        //     {
+        //       id: 2,
+        //       products: [{ id: 0, name: "Coffee", amount: 2, price: 2.3 }],
+        //       total: 4.6,
+        //       payed: true,
+        //     },
+        //   ],
+        // },
+        // {
+        //   id: 2,
+        //   orders: [
+        //     {
+        //       id: 1,
+        //       products: [{ id: 0, name: "Coffee", amount: 2, price: 2.0 }],
+        //       total: 4,
+        //       payed: false,
+        //     },
+        //     {
+        //       id: 2,
+        //       products: [{ id: 0, name: "Coffee", amount: 2, price: 2.3 }],
+        //       total: 4.6,
+        //       payed: true,
+        //     },
+        //   ],
+        // },
+        // {
+        //   id: 3,
+        //   orders: [],
+        // },
+        // {
+        //   id: 4,
+        //   orders: [],
+        // },
+        // {
+        //   id: 5,
+        //   orders: [],
+        // },
+        // {
+        //   id: 6,
+        //   orders: [],
+        // },
+        // {
+        //   id: 7,
+        //   orders: [],
+        // },
+        // {
+        //   id: 8,
+        //   orders: [],
+        // },
+      ],
     };
   },
   setup() {
@@ -105,18 +169,16 @@ export default {
   computed: {
     ...mapGetters("order", ["activeTable"]),
   },
-  //TODO: Load tables from API
-  // created() {
-  //   axios.get()
-  //     .then(res => this.orders = res.data)
-  // }
+
+  created() {
+   this.getTables();
+  },
 
   methods: {
     ...mapActions("auth", ["signOut"]),
-    ...mapActions("order", ["setFinishedTalking"]),
+    ...mapActions("order", ["setActiveTable"]),
 
     async lockClick() {
-      // AuthService.signOut();
       await this.signOut().then(() => {
         this.router.push({ name: "Login" });
       });
@@ -136,12 +198,15 @@ export default {
       await modal.onDidDismiss();
 
       if (this.activeTable) {
-        this.setFinished(false);
+        this.saveActiveTable(this.activeTable);
         this.router.push({ name: "Conversation" });
       }
     },
 
-    async refresh() {},
+    async getTables() {
+      console.log(await ApiService.get("table" ));
+      //TODO fetch tables from api
+    },
   },
 };
 </script>

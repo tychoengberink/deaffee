@@ -3,7 +3,7 @@
     <ion-grid fixed>
       <ion-row class="ion-align-items-start cover-large">
         <ion-col>
-          <conversation-list :items="conversation" />
+          <conversation-list :items="conversation.sentences" />
           <ion-fab vertical="bottom" horizontal="start">
             <ion-fab-button @click="addWaiterSentenceClick">
               <ion-icon :icon="chatboxOutline"></ion-icon>
@@ -78,7 +78,7 @@ export default {
     IonPage,
     ConversationList,
   },
-  //TODO: Load conversation from API
+ 
   setup() {
     const router = useRouter();
     return {
@@ -88,7 +88,7 @@ export default {
 
   data() {
     return {
-      conversation: [],
+      conversation: null,
       micOutline,
       chatboxOutline,
     };
@@ -101,7 +101,7 @@ export default {
     },
 
     finishTalkingClick() {
-      this.router.push({name: "TableDetails"})
+      this.router.push({ name: "TableDetails" });
     },
 
     addCustomerSentenceClick() {
@@ -122,6 +122,7 @@ export default {
     async openWaiterSentenceModal() {
       const modal = await modalController.create({
         component: AddWaiterSentenceModal,
+        componentProps: { conversation: this.conversation },
         cssClass: "dialog-modal",
       });
       return modal.present();
@@ -130,10 +131,15 @@ export default {
     async openCustomerSentenceModal() {
       const modal = await modalController.create({
         component: AddCustomerSentenceModal,
+        componentProps: { conversation: this.conversation },
         cssClass: "dialog-modal",
       });
       return modal.present();
     },
+
+    async getConversation(){
+       //TODO: Load conversation from API
+    }
   },
 };
 </script>

@@ -8,7 +8,7 @@
           <ion-label>Home</ion-label>
         </ion-tab-button>
           
-        <ion-tab-button :disabled="!this.activeTable" tab="conversation" href="/tabs/conversation">
+        <ion-tab-button :disabled="!this.activeTable" tab="tabledetails" href="/tabs/tabledetails">
           <ion-icon :icon="clipboardOutline" />
           <ion-label>Order</ion-label>
         </ion-tab-button>
