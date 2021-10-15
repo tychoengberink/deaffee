@@ -15,11 +15,11 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button @click="addTableClick">
         <ion-icon :icon="add"></ion-icon>
       </ion-fab-button>
-    </ion-fab>
+    </ion-fab> -->
   </ion-page>
 </template>
 
@@ -40,12 +40,9 @@ import {
   IonPage,
   IonTitle,
   IonContent,
-  IonIcon,
   IonGrid,
   IonRow,
   IonCol,
-  IonFab,
-  IonFabButton,
   modalController,
 } from "@ionic/vue";
 import { add } from "ionicons/icons";
@@ -62,12 +59,10 @@ export default {
     IonTitle,
     IonContent,
     IonPage,
-    IonIcon,
     IonGrid,
     IonRow,
     IonCol,
-    IonFab,
-    IonFabButton,
+
     TableList,
     MainHeader,
   },
@@ -87,7 +82,7 @@ export default {
   },
   mounted() {
     ApiService.get("table").then((response) => (this.tables = response.data));
-  },
+  }, 
 
   methods: {
     ...mapGetters("order", ["activeTable"]),

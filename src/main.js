@@ -49,4 +49,5 @@ router.isReady().then(() => {
   app.mount('#app');
 });
 
+
 ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT)

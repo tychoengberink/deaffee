@@ -38,13 +38,13 @@ ion-grid {
 import {
   IonPage,
   IonContent,
-  IonIcon,
-  IonFabButton,
-  IonFab,
   IonTitle,
   IonCol,
   IonRow,
   IonGrid,
+  IonIcon,
+  IonFabButton,
+  IonFab,
 } from "@ionic/vue";
 import { add } from "ionicons/icons";
 import OrderList from "../components/OrderList.vue";
@@ -52,20 +52,20 @@ import OrderList from "../components/OrderList.vue";
 import { ApiService } from "../services/api.service";
 import { mapActions, mapGetters } from "vuex";
 import MainHeader from "../components/MainHeader.vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 export default {
   name: "TableDetails",
   components: {
     IonContent,
     IonPage,
-    IonIcon,
-    IonFabButton,
-    IonFab,
     IonTitle,
     IonCol,
     IonRow,
     IonGrid,
+    IonIcon,
+    IonFabButton,
+    IonFab,
     OrderList,
     MainHeader,
   },
@@ -81,8 +81,10 @@ export default {
     };
   },
 
-  mounted() {
-    ApiService.get("order").then((response) => (this.orders = response.data));
+  ionViewWillEnter() {
+    ApiService.get("table/" + this.activeTable).then(
+      (response) => (this.orders = response.data.orders)
+    );
   },
 
   setup() {

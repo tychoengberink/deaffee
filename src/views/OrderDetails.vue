@@ -3,11 +3,6 @@
   <ion-page v-else>
     <ion-header>
       <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button @click="dismissModal">
-            <ion-icon :icon="closeOutline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
         <ion-title mode="ios"
           >Order {{ order.id }} ({{ totalPrice }})
         </ion-title>
@@ -87,7 +82,6 @@ import {
   IonRow,
   IonCol,
   IonGrid,
-  IonButtons,
   IonIcon,
   modalController,
 } from "@ionic/vue";
@@ -113,10 +107,9 @@ export default {
     IonRow,
     IonCol,
     IonGrid,
-    IonButtons,
     IonIcon,
   },
-  mounted() {},
+
   computed: {
     ...mapGetters("order", ["activeOrder"]),
 
@@ -184,7 +177,6 @@ export default {
       ApiService.get("order/" + this.activeOrder)
         .then((response) => {
           this.order = response.data;
-          console.log(this.order);
         })
         .finally(() => (this.loading = false));
     },

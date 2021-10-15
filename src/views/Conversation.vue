@@ -1,5 +1,6 @@
 <template>
-  <ion-page>
+  <ion-page v-if="loading"> </ion-page>
+  <ion-page v-else>
     <ion-grid fixed>
       <ion-row class="ion-align-items-start cover-large">
         <ion-col>
@@ -64,10 +65,10 @@ import ConversationOverviewModal from "../components/modal/ConversationOverviewM
 import AddCustomerSentenceModal from "../components/modal/AddCustomerSentenceModal.vue";
 import AddWaiterSentenceModal from "../components/modal/AddWaiterSentenceModal.vue";
 import { useRouter } from "vue-router";
+import { ApiService } from "../services/api.service";
 
 export default {
   name: "Conversation",
-  props: ["conversation"],
   components: {
     IonIcon,
     IonFab,
@@ -91,10 +92,19 @@ export default {
     return {
       micOutline,
       chatboxOutline,
+      conversation: null,
+      loading: true,
     };
   },
+  ionViewWillEnter() {
+    ApiService.get("order/" + this.activeOrder).then((response) => {
+      console.log(response.data);
+      this.conversation = response.data.conversation;
+      this.loading = false;
+    });
+  },
   methods: {
-    ...mapGetters("order", ["activeTable"]),
+    ...mapGetters("order", ["activeOrder"]),
 
     conversationOverviewClick() {
       this.openConversationModal();
