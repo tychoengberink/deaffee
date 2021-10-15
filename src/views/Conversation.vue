@@ -67,6 +67,7 @@ import { useRouter } from "vue-router";
 
 export default {
   name: "Conversation",
+  props: ["conversation"],
   components: {
     IonIcon,
     IonFab,
@@ -78,7 +79,7 @@ export default {
     IonPage,
     ConversationList,
   },
- 
+
   setup() {
     const router = useRouter();
     return {
@@ -88,7 +89,6 @@ export default {
 
   data() {
     return {
-      conversation: null,
       micOutline,
       chatboxOutline,
     };
@@ -137,9 +137,9 @@ export default {
       return modal.present();
     },
 
-    async getConversation(){
-       //TODO: Load conversation from API
-    }
+    async getConversation() {
+      //TODO: Load conversation from API
+    },
   },
 };
 </script>

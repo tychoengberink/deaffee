@@ -1,32 +1,59 @@
 import { OrderService } from "@/services/order.service";
 
 const state = {
-    table: OrderService.getActiveTable(),
-    finished: OrderService.getFinishedTalking(),
+  order: null,
+  table: null,
 };
 
 const getters = {
-    activeTable: (state) => {
-        return state.table;
-    },
+  activeOrder: (state) => {
+    return state.order;
+  },
+
+  activeTable: (state) => {
+    return state.table;
+  },
 };
 
 const actions = {
-    saveActiveTable: ({commit}, tablenumber) => {
-        commit('activeTable', tablenumber);
-    },
+  saveActiveOrder: ({ commit }, orderNumber) => {
+    console.log("ACTION ORDER NOW: " + orderNumber);
+    commit("activeOrder", orderNumber);
+  },
+
+  saveActiveTable: ({ commit }, tablenumber) => {
+    console.log("ACTION TABLE NOW: " + tablenumber);
+    commit("activeTable", tablenumber);
+  },
 };
 
 const mutations = {
-    activeTable(table){
-        OrderService.saveActiveTable(table);
-    },
-}
+  initialiseStore(state) {
+    //So state gets saved when app is closed.
+    if (OrderService.getActiveOrder()) {
+      state.order = OrderService.getActiveOrder();
+    }
+    if (OrderService.getActiveTable()) {
+      state.table = OrderService.getActiveTable();
+    }
+  },
+  activeOrder(state, order) {
+    console.log("MUTATION ORER NOW: " + order);
+    state.order = order;
+    OrderService.saveActiveOrder(order);
+  },
+
+  activeTable(state, table) {
+    console.log("MUTATION TABLE NOW: " + table);
+    state.table = table;
+    OrderService.saveActiveTable(table);
+  },
+};
 
 export const order = {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
 };

@@ -30,7 +30,8 @@
     "vue": "^3.2.1",
     "vue-router": "^4.0.0-0",
     "vue-virtual-scroller": "^2.0.0-alpha.1",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@capacitor/cli": "3.2.3",

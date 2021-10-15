@@ -3,8 +3,8 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="top">
-        <ion-tab-button tab="details" href="/tabs/tabledetails">
-          <ion-label>Table details</ion-label>
+        <ion-tab-button tab="details" href="/tabs/orderdetails">
+          <ion-label>Order details</ion-label>
         </ion-tab-button>
         <ion-tab-button tab="conversation" href="/tabs/conversation">
           <ion-label>Conversation</ion-label>
@@ -43,6 +43,7 @@ export default {
     IonPage,
     IonRouterOutlet,
   },
+
   setup() {
     return {
       clipboardOutline,

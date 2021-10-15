@@ -1,20 +1,6 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button @click="settingsClick">
-            <ion-icon :icon="settingsOutline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-        <ion-title mode="ios">Welcome {{ user.name }}!</ion-title>
-        <ion-buttons slot="end">
-          <ion-button @click="lockClick">
-            <ion-icon :icon="lockClosedOutline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
+    <main-header :title="'Welcome ' + user.name + '!'" />
     <ion-grid fixed>
       <ion-row>
         <ion-col>
@@ -52,12 +38,8 @@ ion-grid {
 <script>
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
   IonTitle,
   IonContent,
-  IonButtons,
-  IonButton,
   IonIcon,
   IonGrid,
   IonRow,
@@ -66,23 +48,20 @@ import {
   IonFabButton,
   modalController,
 } from "@ionic/vue";
-import { settingsOutline, lockClosedOutline, add } from "ionicons/icons";
+import { add } from "ionicons/icons";
 import { mapActions, mapGetters } from "vuex";
 import { useRouter } from "vue-router";
 import addTableModal from "@/components/modal/AddTableModal.vue";
 import TableList from "@/components/TableList.vue";
 import { ApiService } from "../services/api.service";
+import MainHeader from "../components/MainHeader.vue";
 
 export default {
   name: "Home",
   components: {
-    IonHeader,
-    IonToolbar,
     IonTitle,
     IonContent,
     IonPage,
-    IonButtons,
-    IonButton,
     IonIcon,
     IonGrid,
     IonRow,
@@ -90,103 +69,29 @@ export default {
     IonFab,
     IonFabButton,
     TableList,
+    MainHeader,
   },
   data() {
     return {
       user: { name: "test" },
-      tables: [
-        // {
-        //   id: 1,
-        //   orders: [
-        //     {
-        //       id: 1,
-        //       products: [{ id: 0, name: "Coffee", amount: 2, price: 2.0 }],
-        //       total: 4,
-        //       payed: false,
-        //     },
-        //     {
-        //       id: 2,
-        //       products: [{ id: 0, name: "Coffee", amount: 2, price: 2.3 }],
-        //       total: 4.6,
-        //       payed: true,
-        //     },
-        //   ],
-        // },
-        // {
-        //   id: 2,
-        //   orders: [
-        //     {
-        //       id: 1,
-        //       products: [{ id: 0, name: "Coffee", amount: 2, price: 2.0 }],
-        //       total: 4,
-        //       payed: false,
-        //     },
-        //     {
-        //       id: 2,
-        //       products: [{ id: 0, name: "Coffee", amount: 2, price: 2.3 }],
-        //       total: 4.6,
-        //       payed: true,
-        //     },
-        //   ],
-        // },
-        // {
-        //   id: 3,
-        //   orders: [],
-        // },
-        // {
-        //   id: 4,
-        //   orders: [],
-        // },
-        // {
-        //   id: 5,
-        //   orders: [],
-        // },
-        // {
-        //   id: 6,
-        //   orders: [],
-        // },
-        // {
-        //   id: 7,
-        //   orders: [],
-        // },
-        // {
-        //   id: 8,
-        //   orders: [],
-        // },
-      ],
+      tables: null,
     };
   },
+
   setup() {
     const router = useRouter();
     return {
       router,
-      settingsOutline,
-      lockClosedOutline,
       add,
     };
   },
-
-  computed: {
-    ...mapGetters("order", ["activeTable"]),
-  },
-
-  created() {
-   this.getTables();
+  mounted() {
+    ApiService.get("table").then((response) => (this.tables = response.data));
   },
 
   methods: {
-    ...mapActions("auth", ["signOut"]),
-    ...mapActions("order", ["setActiveTable"]),
-
-    async lockClick() {
-      await this.signOut().then(() => {
-        this.router.push({ name: "Login" });
-      });
-    },
-
-    settingsClick() {
-      this.router.push({ name: "Settings" });
-    },
+    ...mapGetters("order", ["activeTable"]),
+    ...mapActions("order", ["saveActiveTable"]),
 
     async addTableClick() {
       const modal = await modalController.create({
@@ -199,13 +104,8 @@ export default {
 
       if (this.activeTable) {
         this.saveActiveTable(this.activeTable);
-        this.router.push({ name: "Conversation" });
+        this.router.push({ name: "Orders" });
       }
-    },
-
-    async getTables() {
-      console.log(await ApiService.get("table" ));
-      //TODO fetch tables from api
     },
   },
 };

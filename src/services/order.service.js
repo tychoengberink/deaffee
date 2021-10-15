@@ -1,31 +1,45 @@
-const ACTIVE_TABLE = 'activeTable';
-const FINISHED_TALKING = 'finishedTalking';
+const ACTIVE_ORDER = "activeOrder";
+const ACTIVE_TABLE = "activeTable";
+const FINISHED_TALKING = "finishedTalking";
 
 const OrderService = {
-    getActiveTable() {
-        return localStorage.getItem(ACTIVE_TABLE);
-    },
+  getActiveOrder() {
+    return localStorage.getItem(ACTIVE_ORDER);
+  },
 
-    saveActiveTable(activeTable) {
-        localStorage.setItem(ACTIVE_TABLE, activeTable);
-    },
+  saveActiveOrder(activeOrder) {
+    localStorage.setItem(ACTIVE_ORDER, activeOrder);
+  },
 
-    removeActiveTable() {
-        localStorage.removeItem(ACTIVE_TABLE);
-    },
+  removeActiveOrder() {
+    localStorage.removeItem(ACTIVE_ORDER);
+  },
 
-    getFinishedTalking() {
-        return localStorage.getItem(FINISHED_TALKING);
-    },
+  getFinishedTalking() {
+    return localStorage.getItem(FINISHED_TALKING);
+  },
 
-    saveFinishedTalking(finshedTalking) {
-        localStorage.setItem(FINISHED_TALKING, finshedTalking);
-    },
+  saveFinishedTalking(finshedTalking) {
+    localStorage.setItem(FINISHED_TALKING, finshedTalking);
+  },
 
-    removeFinishedTalking() {
-        localStorage.removeItem(FINISHED_TALKING);
-    },
+  removeFinishedTalking() {
+    localStorage.removeItem(FINISHED_TALKING);
+  },
 
-}
+  getActiveTable() {
+    return localStorage.getItem(ACTIVE_TABLE);
+},
+
+saveActiveTable(activeTable) {
+    localStorage.setItem(ACTIVE_TABLE, activeTable);
+},
+
+removeActiveTable() {
+    localStorage.removeItem(ACTIVE_TABLE);
+},
+
+};
 
 export { OrderService };
+

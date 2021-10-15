@@ -9,6 +9,7 @@
 <script>
 import { IonItem, IonLabel } from "@ionic/vue";
 import { mapActions } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   props: ["table"],
@@ -16,11 +17,20 @@ export default {
     IonItem,
     IonLabel,
   },
+
+  setup() {
+    const router = useRouter();
+    return {
+      router,
+    };
+  },
+
   methods: {
     ...mapActions("order", ["saveActiveTable"]),
+
     itemClick() {
       this.saveActiveTable(this.table.id);
-      this.r
+      this.router.push({ name: "Orders" });
     },
   },
 };

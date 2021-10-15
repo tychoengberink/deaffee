@@ -1,5 +1,6 @@
 <template>
-  <ion-page>
+  <ion-page v-if="loading"> </ion-page>
+  <ion-page v-else>
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
@@ -27,10 +28,16 @@
                 <ion-label class="right">
                   {{ product.amount }}
                 </ion-label>
-                <ion-button  v-if="!this.order.payed" @click="editProduct(product)">
+                <ion-button
+                  v-if="!this.order.payed"
+                  @click="editProduct(product)"
+                >
                   <ion-icon slot="icon-only" :icon="createOutline"></ion-icon>
                 </ion-button>
-                <ion-button  v-if="!this.order.payed" @click="removeProduct(product)">
+                <ion-button
+                  v-if="!this.order.payed"
+                  @click="removeProduct(product)"
+                >
                   <ion-icon slot="icon-only" :icon="trashBinOutline"></ion-icon>
                 </ion-button>
               </ion-item>
@@ -39,12 +46,18 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-button v-if="!this.order.payed" expand="block" @click="addProduct"
+            <ion-button
+              v-if="!this.order.payed"
+              expand="block"
+              @click="addProduct"
               >Add product</ion-button
             >
           </ion-col>
           <ion-col>
-            <ion-button  v-if="!this.order.payed" expand="block" @click="checkOutClick"
+            <ion-button
+              v-if="!this.order.payed"
+              expand="block"
+              @click="checkOutClick"
               >Check out</ion-button
             >
           </ion-col>
@@ -79,12 +92,14 @@ import {
   modalController,
 } from "@ionic/vue";
 import { closeOutline, createOutline, trashBinOutline } from "ionicons/icons";
-import EditProductAmountModal from "./EditProductAmountModal.vue";
-import AddProductModal from "./AddProductModal.vue";
+import EditProductAmountModal from "../components/modal/EditProductAmountModal.vue";
+import AddProductModal from "../components/modal/AddProductModal.vue";
+import { ApiService } from "../services/api.service";
+import { useRouter } from "vue-router";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ConversationOverviewModal",
-  props: ["order"],
   components: {
     IonHeader,
     IonToolbar,
@@ -101,7 +116,10 @@ export default {
     IonButtons,
     IonIcon,
   },
+  mounted() {},
   computed: {
+    ...mapGetters("order", ["activeOrder"]),
+
     totalPrice: function() {
       var total = 0;
       this.order.products.forEach((product) => {
@@ -111,13 +129,34 @@ export default {
       return total;
     },
   },
+
+  watch: {
+    activeOrder: {
+      handler(newVal) {
+        if (newVal) {
+          this.getOrder();
+        }
+      },
+      immediate: true,
+    },
+  },
+
+  setup() {
+    const router = useRouter();
+    return {
+      router,
+    };
+  },
   data() {
     return {
       closeOutline,
       createOutline,
       trashBinOutline,
+      order: this.$route.params.order,
+      loading: true,
     };
   },
+
   methods: {
     dismissModal() {
       modalController.dismiss();
@@ -138,6 +177,16 @@ export default {
         cssClass: "dialog-modal",
       });
       await modal.present();
+    },
+
+    async getOrder() {
+      console.log(this.activeOrder);
+      ApiService.get("order/" + this.activeOrder)
+        .then((response) => {
+          this.order = response.data;
+          console.log(this.order);
+        })
+        .finally(() => (this.loading = false));
     },
 
     checkOutClick() {},

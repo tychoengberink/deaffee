@@ -37,11 +37,6 @@
           </ion-row>
           <ion-row>
             <ion-col align-self-center size-md="12" size-lg="12" size-xs="12">
-              <ion-spinner
-                v-if="this.loading"
-                color="primary"
-                name="crescent"
-              ></ion-spinner>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -74,7 +69,6 @@ import {
   IonButton,
   IonImg,
   IonCol,
-  IonSpinner,
 } from "@ionic/vue";
 import { TokenService } from "@/services/token.service";
 import { useRouter } from "vue-router";
@@ -94,7 +88,6 @@ export default {
     IonButton,
     IonImg,
     IonCol,
-    IonSpinner,
   },
   setup() {
     const router = useRouter();
@@ -105,7 +98,6 @@ export default {
       username: null,
       password: null,
       submitted: false,
-      loading: false,
       img: null,
     };
   },
@@ -124,7 +116,6 @@ export default {
     },
 
     onLogin() {
-      this.loading = true;
       this.submitted = true;
       if (this.passwordValid()) {
         //TODO api login call
@@ -133,7 +124,6 @@ export default {
         TokenService.saveToken("bla");
         this.router.push("/tabs/home");
         this.submitted = false;
-        this.loading = false;
       }
     },
   },

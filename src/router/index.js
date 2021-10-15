@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import Tabs from "../views/Tabs.vue";
-import TableTabs from "../views/TableTabs.vue";
+import OrderTabs from "../views/OrderTabs.vue";
 import { TokenService } from "../services/token.service";
 
 const routes = [
@@ -32,13 +32,19 @@ const routes = [
         component: () => import("@/views/Home.vue"),
       },
       {
+        name: "Orders",
+        path: "orders",
+        component: () => import("@/views/Orders.vue"),
+      },
+      {
         path: "",
-        component: TableTabs,
+        component: OrderTabs,
+        redirect: "/tabs/orderdetails",
         children: [
           {
-            name: "TableDetails",
-            path: "tabledetails",
-            component: () => import("@/views/TableDetails.vue"),
+            name: "OrderDetails",
+            path: "orderdetails",
+            component: () => import("@/views/OrderDetails.vue"),
           },
           {
             name: "Conversation",
