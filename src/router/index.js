@@ -44,13 +44,13 @@ const routes = [
         component: () => import("@/views/Orders.vue"),
       },
       {
-        path: "",
+        path: "order/",
         component: OrderTabs,
-        redirect: "/tabs/orderdetails",
+        redirect: "/tabs/order/details",
         children: [
           {
             name: "OrderDetails",
-            path: "orderdetails",
+            path: "details",
             component: () => import("@/views/OrderDetails.vue"),
           },
           {

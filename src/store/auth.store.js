@@ -1,3 +1,4 @@
+//Used from https://www.djamware.com/post/5fc19e3e77862f22905c7f03/ionic-5-tutorial-oauth2-login-example-vue
 import { AuthenticationError, AuthService } from "@/services/auth.service";
 import { TokenService } from "@/services/token.service";
 import { UserService } from "../services/user.service";

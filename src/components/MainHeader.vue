@@ -3,13 +3,13 @@
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-button @click="settingsClick">
-          <ion-icon :icon="settingsOutline"></ion-icon>
+          <ion-icon color="primary" :icon="settingsOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
       <ion-title mode="ios">{{ title }}</ion-title>
       <ion-buttons slot="end">
         <ion-button @click="lockClick">
-          <ion-icon :icon="lockClosedOutline"></ion-icon>
+          <ion-icon color="primary" :icon="lockClosedOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
