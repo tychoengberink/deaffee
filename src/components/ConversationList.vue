@@ -1,51 +1,71 @@
 <template>
   <ion-content>
-            <ion-list>
-              <DynamicScroller
-                class="scroller"
-                :items="items"
-                :min-item-size="10"
-              >
-                <template v-slot="{ item, index, active }">
-                  <DynamicScrollerItem
-                    :item="item"
-                    :active="active"
-                    :size-dependencies="[item.text]"
-                    :data-index="index"
-                  >
-                    <div v-if="item.type == 'waiter'" class="sentence-left">
-                      {{ item.text }}
-                    </div>
-                    <div v-if="item.type == 'customer'" class="sentence-right">
-                      {{ item.text }}
-                    </div>
-                  </DynamicScrollerItem>
-                </template>
-              </DynamicScroller>
-            </ion-list>
-          </ion-content>
+    <ion-list>
+      <DynamicScroller class="scroller" :items="items" :min-item-size="10">
+        <template v-slot="{ item, index, active }">
+          <DynamicScrollerItem
+            :item="item"
+            :active="active"
+            :size-dependencies="[item.text]"
+            :data-index="index"
+          >
+            <div>
+              <div :class="item.isClient ? 'sentence-right' : 'sentence-left'">
+                {{ item.text }}
+                <br>
+                <ion-button @click="textToSpeech(item.text)" size="small">
+                  <ion-icon :icon="chatboxOutline" />
+                </ion-button>
+              </div>
+            </div>
+          </DynamicScrollerItem>
+        </template>
+      </DynamicScroller>
+    </ion-list>
+  </ion-content>
 </template>
 
 <script>
-import {
-  IonList,
-  IonContent,
-} from "@ionic/vue";
-
+import { IonList, IonContent, IonButton, IonIcon } from "@ionic/vue";
+import { chatboxOutline } from "ionicons/icons";
+import { TextToSpeech } from "@ionic-native/text-to-speech";
 export default {
- name: "ConversationList",
+  name: "ConversationList",
   components: {
     IonList,
-    IonContent
+    IonContent,
+    IonButton,
+    IonIcon,
   },
   props: {
-      items: Array
-  }
-}
-//TODO: add text to speech per line
+    items: Array,
+  },
+
+  setup() {
+    return {
+      chatboxOutline,
+    };
+  },
+
+  methods: {
+    textToSpeech(sentence) {
+      TextToSpeech.speak({ text: sentence, locale: "en-US" });
+    },
+  },
+};
 </script>
 
-<style>
+<style lang="scss" scoped>
+ion-grid {
+  height: 100%;
+  ion-row.cover-large {
+    height: 90%;
+    ion-col {
+      height: 100%;
+    }
+  }
+}
+
 
 .sentence-left {
   text-align: left;

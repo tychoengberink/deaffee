@@ -6,7 +6,7 @@
           <ion-icon :icon="closeOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title>Add product</ion-title>
+      <ion-title>Delete product</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
@@ -14,32 +14,22 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="stacked">Product</ion-label>
-            <ion-input v-model="product.name"></ion-input>
+            <ion-title position="stacked">Are you sure you want to delete this product?</ion-title>
           </ion-item>
         </ion-col>
       </ion-row>
-      <ion-row>
+       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="stacked">Amount</ion-label>
-            <ion-input v-model="product.amount" type="number"></ion-input>
+           <ion-buttons>
+            <ion-button>
+              No
+              <ion-button>
+              <ion-button>
+              Yes
+              <ion-button>
+           </ion-buttons>
           </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="stacked">Price</ion-label>
-            <ion-input v-model="product.price" type="number"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-button expand="block" @click="addProductClick"
-            >Add product</ion-button
-          >
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -59,13 +49,10 @@ import {
   IonRow,
   IonCol,
   IonItem,
-  IonInput,
-  IonLabel,
   modalController,
 } from "@ionic/vue";
 import { closeOutline } from "ionicons/icons";
 import { defineComponent } from "vue";
-import { ApiService } from "../../services/api.service";
 
 export default defineComponent({
   name: "addTableModal",
@@ -88,20 +75,18 @@ export default defineComponent({
     IonGrid,
     IonRow,
     IonCol,
-    IonItem,
-    IonInput,
-    IonLabel,
+    IonItem
   },
   methods: {
+
     dismissModal() {
       modalController.dismiss();
     },
 
     addProductClick() {
-      ApiService.post("order/" + this.order.id + "/product").then(() => {
-        this.editOrder.products.push(this.product);
-        this.dismissModal();
-      });
+      //TODO DELETE product from order API
+      this.editOrder.products.remove(this.product);
+      this.dismissModal();
     },
   },
 });

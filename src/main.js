@@ -49,5 +49,5 @@ router.isReady().then(() => {
   app.mount('#app');
 });
 
-
+//Set portrait mode only
 ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT)

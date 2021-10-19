@@ -18,7 +18,7 @@
               </ion-item>
               <ion-text
                 color="danger"
-                v-show="!this.passwordValid || this.submitted == true"
+                v-show="!this.passwordValid && this.submitted == true"
                 padding-left
               >
                 Code is required
@@ -26,7 +26,7 @@
 
               <ion-text
                 color="danger"
-                v-show="!this.passwordWrong || this.submitted == true"
+                v-show="!this.passwordWrong && this.submitted == true"
                 padding-left
               >
                 Code is wrong
@@ -72,6 +72,8 @@ import {
 } from "@ionic/vue";
 import { TokenService } from "@/services/token.service";
 import { useRouter } from "vue-router";
+import { mapGetters } from "vuex";
+
 // import { UserService } from "@/services/user.service";
 
 export default {
@@ -89,6 +91,9 @@ export default {
     IonImg,
     IonCol,
   },
+  computed: {
+    ...mapGetters("auth", ["isNotFirstTime"]),
+  },
   setup() {
     const router = useRouter();
     return { router };
@@ -101,6 +106,13 @@ export default {
       img: null,
     };
   },
+
+  ionViewWillEnter() {
+    if (!this.isNotFirstTime) {
+      this.router.push({ name: "Register" });
+    } 
+  },
+
   methods: {
     passwordValid() {
       if (this.password == null) {

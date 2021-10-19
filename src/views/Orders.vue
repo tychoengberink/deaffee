@@ -48,7 +48,6 @@ import {
 } from "@ionic/vue";
 import { add } from "ionicons/icons";
 import OrderList from "../components/OrderList.vue";
-// import OrderDetailsModal from "../components/modal/OrderDetailsModal.vue";
 import { ApiService } from "../services/api.service";
 import { mapActions, mapGetters } from "vuex";
 import MainHeader from "../components/MainHeader.vue";

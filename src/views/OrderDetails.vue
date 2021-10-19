@@ -123,15 +123,8 @@ export default {
     },
   },
 
-  watch: {
-    activeOrder: {
-      handler(newVal) {
-        if (newVal) {
-          this.getOrder();
-        }
-      },
-      immediate: true,
-    },
+  ionViewDidEnter() {
+    this.getOrder();
   },
 
   setup() {
@@ -163,6 +156,7 @@ export default {
       });
       await modal.present();
     },
+
     async addProduct() {
       const modal = await modalController.create({
         componentProps: { order: this.order },
@@ -173,7 +167,6 @@ export default {
     },
 
     async getOrder() {
-      console.log(this.activeOrder);
       ApiService.get("order/" + this.activeOrder)
         .then((response) => {
           this.order = response.data;
@@ -181,7 +174,9 @@ export default {
         .finally(() => (this.loading = false));
     },
 
-    checkOutClick() {},
+    checkOutClick() {
+      //TODO: Save payed to order on API
+    },
   },
 };
 </script>

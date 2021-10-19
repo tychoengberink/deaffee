@@ -15,6 +15,8 @@ export default defineComponent({
     IonRouterOutlet,
   },
   beforeCreate() {
+    //fetch old states if available
+    this.$store.commit("auth/initialiseStore");
     this.$store.commit("order/initialiseStore");
   },
 });

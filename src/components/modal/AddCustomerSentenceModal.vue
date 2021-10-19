@@ -15,7 +15,17 @@
         <ion-col>
           <ion-item>
             <ion-label position="stacked">Sentence</ion-label>
-            <ion-textarea v-model="speechToTextOutput"></ion-textarea>
+            <ion-textarea
+              :disabled="true"
+              v-model="speechToTextOutput"
+            ></ion-textarea>
+            <ion-text
+              color="danger"
+              v-show="this.error && this.submitted"
+              padding-left
+            >
+              Please click to button to generate a sentence!
+            </ion-text>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -48,12 +58,14 @@ import {
   IonItem,
   IonTextarea,
   IonLabel,
+  IonText,
   modalController,
 } from "@ionic/vue";
 import { closeOutline } from "ionicons/icons";
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
+import { ApiService } from "../../services/api.service";
 
 export default defineComponent({
   name: "addTableModal",
@@ -63,6 +75,8 @@ export default defineComponent({
       closeOutline,
       speechToTextOutput: "",
       listening: false,
+      error: false,
+      submitted: false,
       matches: [],
       editConversation: this.conversation,
     };
@@ -80,6 +94,7 @@ export default defineComponent({
     IonCol,
     IonItem,
     IonTextarea,
+    IonText,
     IonLabel,
   },
   methods: {
@@ -113,13 +128,27 @@ export default defineComponent({
       );
     },
     pushToStop() {
-      var sentence = { text: this.matches[0], type: "customer" };
+      this.submitted = true;
+      var sentence = {
+        text: this.matches[0],
+        isClient: 1,
+        conversation_id: this.conversation.id,
+      };
+
       SpeechRecognition.stopListening();
       this.listening = false;
-      this.dismissModal();
 
-      //TODO save sentences to API
-      this.editConversation.sentences.push(sentence);
+      ApiService.post("sentence", sentence)
+        .then((response) => {
+          sentence.push({ id: response.data.id });
+          this.editConversation.sentences.push(sentence);
+          this.dismissModal();
+          this.submitted = false;
+          this.error = false;
+        })
+        .catch(() => {
+          this.error = true;
+        });
     },
   },
 });

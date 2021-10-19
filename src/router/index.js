@@ -10,8 +10,15 @@ const routes = [
   },
   {
     name: "Login",
+    meta: { public: true },
     path: "/login",
     component: () => import("@/views/Login.vue"),
+  },
+  {
+    name: "Register",
+    meta: { public: true },
+    path: "/register",
+    component: () => import("@/views/FirstTime.vue"),
   },
   {
     name: "Settings",
@@ -63,8 +70,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== "Login" && !TokenService.getToken()) next({ name: "Login" });
-  else next();
+  if (!to.meta.public) {
+    if (to.name !== "Login" && !TokenService.getToken()) {
+      next("Login");
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

@@ -1,10 +1,16 @@
 <template>
-  <ion-page v-if="loading"> </ion-page>
+  <ion-page v-if="loading"></ion-page>
   <ion-page v-else>
     <ion-grid fixed>
       <ion-row class="ion-align-items-start cover-large">
         <ion-col>
-          <conversation-list :items="conversation.sentences" />
+          <conversation-list
+            v-if="conversation.sentences"
+            :items="conversation.sentences"
+          />
+          <ion-title v-else color="primary"
+            >No conversation available</ion-title
+          >
           <ion-fab vertical="bottom" horizontal="start">
             <ion-fab-button @click="addWaiterSentenceClick">
               <ion-icon :icon="chatboxOutline"></ion-icon>
@@ -19,11 +25,6 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col>
-          <ion-button expand="block" @click="conversationOverviewClick"
-            >Show conversation</ion-button
-          >
-        </ion-col>
         <ion-col>
           <ion-button expand="block" @click="finishTalkingClick"
             >Finish Talking</ion-button
@@ -56,12 +57,12 @@ import {
   IonRow,
   IonCol,
   IonButton,
+  IonTitle,
   modalController,
 } from "@ionic/vue";
 import { micOutline, chatboxOutline } from "ionicons/icons";
 import { mapGetters } from "vuex";
 import ConversationList from "../components/ConversationList.vue";
-import ConversationOverviewModal from "../components/modal/ConversationOverviewModal.vue";
 import AddCustomerSentenceModal from "../components/modal/AddCustomerSentenceModal.vue";
 import AddWaiterSentenceModal from "../components/modal/AddWaiterSentenceModal.vue";
 import { useRouter } from "vue-router";
@@ -78,6 +79,7 @@ export default {
     IonCol,
     IonButton,
     IonPage,
+    IonTitle,
     ConversationList,
   },
 
@@ -96,22 +98,22 @@ export default {
       loading: true,
     };
   },
-  ionViewWillEnter() {
-    ApiService.get("order/" + this.activeOrder).then((response) => {
-      console.log(response.data);
-      this.conversation = response.data.conversation;
-      this.loading = false;
-    });
-  },
-  methods: {
-    ...mapGetters("order", ["activeOrder"]),
 
+  computed: {
+    ...mapGetters("order", ["activeOrder"]),
+  },
+
+  ionViewWillEnter() {
+    this.getConversation();
+  },
+
+  methods: {
     conversationOverviewClick() {
       this.openConversationModal();
     },
 
     finishTalkingClick() {
-      this.router.push({ name: "TableDetails" });
+      this.router.push({ name: "OrderDetails" });
     },
 
     addCustomerSentenceClick() {
@@ -122,20 +124,13 @@ export default {
       this.openWaiterSentenceModal();
     },
 
-    async openConversationModal() {
-      const modal = await modalController.create({
-        component: ConversationOverviewModal,
-      });
-      return modal.present();
-    },
-
     async openWaiterSentenceModal() {
       const modal = await modalController.create({
         component: AddWaiterSentenceModal,
         componentProps: { conversation: this.conversation },
         cssClass: "dialog-modal",
       });
-      return modal.present();
+      await modal.present();
     },
 
     async openCustomerSentenceModal() {
@@ -144,11 +139,18 @@ export default {
         componentProps: { conversation: this.conversation },
         cssClass: "dialog-modal",
       });
-      return modal.present();
+      await modal.present();
     },
 
     async getConversation() {
-      //TODO: Load conversation from API
+      ApiService.get("order/" + this.activeOrder).then((response) => {
+        ApiService.get("conversation/" + response.data.conversation.id).then(
+          (response) => {
+            this.conversation = response.data;
+            this.loading = false;
+          }
+        );
+      });
     },
   },
 };

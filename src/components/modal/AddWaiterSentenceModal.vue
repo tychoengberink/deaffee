@@ -16,6 +16,13 @@
           <ion-item>
             <ion-label position="stacked">Sentence</ion-label>
             <ion-textarea v-model="waiterSentence"></ion-textarea>
+            <ion-text
+              color="danger"
+              v-show="this.error && this.submitted"
+              padding-left
+            >
+              Please type a sentence!
+            </ion-text>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -50,15 +57,17 @@ import {
 import { closeOutline } from "ionicons/icons";
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
+import { ApiService } from "../../services/api.service";
 
 export default defineComponent({
   name: "addTableModal",
   props: ["conversation"],
   data() {
-    console.log(this.conversation);
     return {
       closeOutline,
       waiterSentence: "",
+      error: false,
+      submitted: false,
       editConversation: this.conversation,
     };
   },
@@ -85,8 +94,26 @@ export default defineComponent({
     },
 
     addWaiterSentence() {
-      this.editConversation.sentences.push({id: 4, text: this.waiterSentence, type: "waiter"})
-      //TODO save sentences to API
+      this.submitted = true;
+      var sentence = {
+        isClient: 0,
+        text: this.waiterSentence,
+        conversation_id: this.conversation.id,
+      };
+
+      this.listening = false;
+      console.log(sentence);
+      ApiService.post("sentence", sentence)
+        .then((response) => {
+          sentence.push({ id: response.data.id });
+          this.editConversation.sentences.push(sentence);
+          this.dismissModal();
+          this.submitted = false;
+          this.error = false;
+        })
+        .catch(() => {
+          this.error = true;
+        });
     },
   },
 });

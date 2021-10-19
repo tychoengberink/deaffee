@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <main-header :title="'Welcome ' + user.name + '!'" />
+    <main-header :title="'Welcome ' + userName + '!'" />
     <ion-grid fixed>
       <ion-row>
         <ion-col>
@@ -15,11 +15,6 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button @click="addTableClick">
-        <ion-icon :icon="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab> -->
   </ion-page>
 </template>
 
@@ -62,13 +57,14 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
-
     TableList,
     MainHeader,
   },
+  computed: {
+    ...mapGetters("auth", ["userName"]),
+  },
   data() {
     return {
-      user: { name: "test" },
       tables: null,
     };
   },
@@ -80,9 +76,10 @@ export default {
       add,
     };
   },
+
   mounted() {
     ApiService.get("table").then((response) => (this.tables = response.data));
-  }, 
+  },
 
   methods: {
     ...mapGetters("order", ["activeTable"]),

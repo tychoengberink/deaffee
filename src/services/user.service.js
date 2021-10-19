@@ -1,21 +1,25 @@
-const USER_KEY = "user";
+const USERNAME_KEY = "userName";
+const USERID_KEY = "userId";
 
 const UserService = {
   getUserName() {
-    var user = localStorage.getItem(USER_KEY);
-    return user.name;
+    return localStorage.getItem(USERNAME_KEY);
   },
   getUserId() {
-    var user = localStorage.getItem(USER_KEY);
-    return user.id;
+    return localStorage.getItem(USERID_KEY);
   },
 
-  saveUser(user) {
-    localStorage.setItem(USER_KEY, user);
+  saveUserName(name) {
+    localStorage.setItem(USERNAME_KEY, name);
+  },
+
+  saveUserId(id) {
+    localStorage.setItem(USERID_KEY, id);
   },
 
   removeUser() {
-    localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(USERID_KEY);
+    localStorage.removeItem(USERNAME_KEY);
   },
 };
 
