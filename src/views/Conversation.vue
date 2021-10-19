@@ -11,13 +11,17 @@
           <ion-title v-else color="primary"
             >No conversation available</ion-title
           >
-          <ion-fab vertical="bottom" horizontal="start">
+          <ion-fab
+            v-if="!this.order.isPaid"
+            vertical="bottom"
+            horizontal="start"
+          >
             <ion-fab-button @click="addWaiterSentenceClick">
               <ion-icon :icon="chatboxOutline"></ion-icon>
             </ion-fab-button>
           </ion-fab>
 
-          <ion-fab vertical="bottom" horizontal="end">
+          <ion-fab v-if="!this.order.isPaid" vertical="bottom" horizontal="end">
             <ion-fab-button @click="addCustomerSentenceClick">
               <ion-icon :icon="micOutline"></ion-icon>
             </ion-fab-button>
@@ -26,7 +30,10 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="block" @click="finishTalkingClick"
+          <ion-button
+            :disabled="this.order.isPaid"
+            expand="block"
+            @click="finishTalkingClick"
             >Finish Talking</ion-button
           >
         </ion-col>
@@ -95,6 +102,7 @@ export default {
       micOutline,
       chatboxOutline,
       conversation: null,
+      order: null,
       loading: true,
     };
   },
@@ -144,6 +152,7 @@ export default {
 
     async getConversation() {
       ApiService.get("order/" + this.activeOrder).then((response) => {
+        this.order = response.data;
         ApiService.get("conversation/" + response.data.conversation.id).then(
           (response) => {
             this.conversation = response.data;

@@ -52,6 +52,7 @@ import {
   IonItem,
   IonTextarea,
   IonLabel,
+  IonText,
   modalController,
 } from "@ionic/vue";
 import { closeOutline } from "ionicons/icons";
@@ -85,6 +86,7 @@ export default defineComponent({
     IonItem,
     IonTextarea,
     IonLabel,
+    IonText,
   },
   methods: {
     ...mapActions("order", ["saveActiveTable"]),

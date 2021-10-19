@@ -24,13 +24,13 @@
                   {{ product.amount }}
                 </ion-label>
                 <ion-button
-                  v-if="!this.order.payed"
+                  v-if="!this.order.isPaid"
                   @click="editProduct(product)"
                 >
                   <ion-icon slot="icon-only" :icon="createOutline"></ion-icon>
                 </ion-button>
                 <ion-button
-                  v-if="!this.order.payed"
+                  v-if="!this.order.isPaid"
                   @click="removeProduct(product)"
                 >
                   <ion-icon slot="icon-only" :icon="trashBinOutline"></ion-icon>
@@ -42,7 +42,7 @@
         <ion-row>
           <ion-col>
             <ion-button
-              v-if="!this.order.payed"
+              v-if="!this.order.isPaid"
               expand="block"
               @click="addProduct"
               >Add product</ion-button
@@ -50,7 +50,7 @@
           </ion-col>
           <ion-col>
             <ion-button
-              v-if="!this.order.payed"
+              v-if="!this.order.isPaid"
               expand="block"
               @click="checkOutClick"
               >Check out</ion-button
