@@ -3,10 +3,10 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="top">
-        <ion-tab-button tab="details" href="/tabs/orderdetails">
+        <ion-tab-button tab="details" href="/tabs/order/details">
           <ion-label>Order details</ion-label>
         </ion-tab-button>
-        <ion-tab-button tab="conversation" href="/tabs/conversation">
+        <ion-tab-button tab="conversation" href="/tabs/order/conversation">
           <ion-label>Conversation</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -50,6 +50,8 @@ export default {
       homeOutline,
     };
   },
+
+  
 
   computed: {
     ...mapGetters("order", ["finishedTalking"]),
