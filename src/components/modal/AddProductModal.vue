@@ -167,12 +167,14 @@ export default defineComponent({
           price: parseInt(this.product.price),
         })
           .then((response) => {
+            const product = response.data;
             ApiService.post("api/order/" + this.order.id + "/product", {
               product_id: response.data.id,
               amount: this.product.amount,
             }).then(() => {
               this.submitted = false;
-              this.editOrder.products.push(this.product);
+              product.amount = this.product.amount;
+              this.editOrder.products.push(product);
               this.dismissModal();
             });
           })

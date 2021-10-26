@@ -91,6 +91,7 @@ import AddProductModal from "../components/modal/AddProductModal.vue";
 import { ApiService } from "../services/api.service";
 import { useRouter } from "vue-router";
 import { mapGetters } from "vuex";
+import DeleteProductModal from "../components/modal/DeleteProductModal.vue";
 
 export default {
   name: "ConversationOverviewModal",
@@ -171,6 +172,15 @@ export default {
         this.order = response.data;
         this.loading = false;
       });
+    },
+
+    async removeProduct(product) {
+      const modal = await modalController.create({
+        componentProps: { product: product, order: this.order },
+        component: DeleteProductModal,
+        cssClass: "dialog-modal",
+      });
+      await modal.present();
     },
 
     checkOutClick() {

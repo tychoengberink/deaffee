@@ -34,13 +34,13 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="4"> </ion-col>
+          <ion-col size="3"> </ion-col>
           <ion-col size="4">
-            <ion-button :disabled="true" @click="saveSettings">
+            <ion-button :disabled="true" @click="savePin">
               Not yet supported
             </ion-button>
-            <ion-col size="4"> </ion-col>
           </ion-col>
+          <ion-col size="3"> </ion-col>
         </ion-row>
       </ion-grid>
     </ion-content>
@@ -57,6 +57,7 @@ import {
   IonButtons,
   IonBackButton,
   IonInput,
+  IonButton,
   IonItem,
   IonLabel,
   IonRow,
@@ -75,6 +76,7 @@ export default {
     IonButtons,
     IonBackButton,
     IonInput,
+    IonButton,
     IonItem,
     IonLabel,
     IonRow,

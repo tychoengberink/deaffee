@@ -14,21 +14,19 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-title position="stacked">Are you sure you want to delete this product?</ion-title>
+            <ion-title position="stacked"
+              >Are you sure you want to delete this product?</ion-title
+            >
           </ion-item>
         </ion-col>
       </ion-row>
-       <ion-row>
+      <ion-row>
         <ion-col>
           <ion-item>
-           <ion-buttons>
-            <ion-button>
-              No
-              <ion-button>
-              <ion-button>
-              Yes
-              <ion-button>
-           </ion-buttons>
+            <ion-buttons>
+              <ion-button @click="dismissModal"> No </ion-button>
+              <ion-button @click="deleteProductClick"> Yes </ion-button>
+            </ion-buttons>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -53,15 +51,15 @@ import {
 } from "@ionic/vue";
 import { closeOutline } from "ionicons/icons";
 import { defineComponent } from "vue";
+import { ApiService } from "../../services/api.service";
 
 export default defineComponent({
   name: "addTableModal",
-  props: ["order"],
+  props: ["order", "product"],
   data() {
     return {
       closeOutline,
       editOrder: this.order,
-      product: { name: null, amount: 0 },
     };
   },
   components: {
@@ -75,17 +73,21 @@ export default defineComponent({
     IonGrid,
     IonRow,
     IonCol,
-    IonItem
+    IonItem,
   },
   methods: {
-
     dismissModal() {
       modalController.dismiss();
     },
 
     deleteProductClick() {
-      //TODO DELETE product from order API
-      this.editOrder.products.remove(this.product);
+        ApiService.delete(
+          "api/order/" + this.order.id + "/product/" + this.product.id
+        ).then((response) => {
+          console.log(response);
+        });
+
+      this.editOrder.products.splice(this.product);
       this.dismissModal();
     },
   },

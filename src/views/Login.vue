@@ -8,7 +8,9 @@
               <ion-img :src="require('@/images/logo.png')"></ion-img>
 
               <ion-item text-center>
-                <ion-label position="stacked" color="primary">Your pincode</ion-label>
+                <ion-label position="stacked" color="primary"
+                  >Your pincode</ion-label
+                >
                 <ion-input
                   v-model="password"
                   name="password"
@@ -18,18 +20,18 @@
               </ion-item>
               <ion-text
                 color="danger"
-                v-show="!this.passwordValid && this.submitted == true"
+                v-show="this.errors.passwordNumber && this.submitted"
                 padding-left
               >
-                Code is required
+                Pincode needs to be a number!
               </ion-text>
 
               <ion-text
                 color="danger"
-                v-show="!this.passwordWrong && this.submitted == true"
+                v-show="this.errors.passwordEmpty && this.submitted"
                 padding-left
               >
-                Code is wrong
+                Pincode cant be empty!
               </ion-text>
 
               <ion-button type="submit" expand="block">Login</ion-button>
@@ -70,11 +72,8 @@ import {
   IonImg,
   IonCol,
 } from "@ionic/vue";
-import { TokenService } from "@/services/token.service";
 import { useRouter } from "vue-router";
-import { mapGetters } from "vuex";
-
-// import { UserService } from "@/services/user.service";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -102,6 +101,10 @@ export default {
     return {
       username: null,
       password: null,
+      errors: {
+        passwordEmpty: false,
+        passwordNumber: false,
+      },
       submitted: false,
       img: null,
     };
@@ -110,18 +113,11 @@ export default {
   ionViewWillEnter() {
     if (!this.isNotFirstTime) {
       this.router.push({ name: "Register" });
-    } 
+    }
   },
 
   methods: {
-    passwordValid() {
-      if (this.password == null) {
-        this.loading = false;
-        return false;
-      } else {
-        return true;
-      }
-    },
+    ...mapActions("auth", ["signIn"]),
 
     passwordWrong() {
       return true;
@@ -129,13 +125,32 @@ export default {
 
     onLogin() {
       this.submitted = true;
-      if (this.passwordValid()) {
-        //TODO api login call
-        //Testing
-        // UserService.saveUser();
-        TokenService.saveToken("bla");
-        this.router.push("/tabs/home");
-        this.submitted = false;
+      if (!this.password) {
+        this.errors.passwordEmpty = true;
+      } else {
+        this.errors.passwordEmpty = false;
+      }
+
+      if (isNaN(this.password)) {
+        this.errors.passwordNumber = true;
+      } else {
+        this.errors.passwordNumber = false;
+      }
+      var errors = false;
+      for (const key in this.errors) {
+        if (this.errors[key]) {
+          errors = true;
+        }
+      }
+
+      if (!errors) {
+        this.signIn({
+          username: this.username,
+          password: this.password,
+        }).then(() => {
+          this.router.push({ name: "Home" });
+          this.submitted = false;
+        });
       }
     },
   },

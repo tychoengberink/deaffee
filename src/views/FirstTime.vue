@@ -143,7 +143,7 @@ import {
 } from "@ionic/vue";
 import { useRouter } from "vue-router";
 import { mapActions, mapGetters } from "vuex";
-import { TokenService } from '../services/token.service';
+import { TokenService } from "../services/token.service";
 
 export default {
   name: "Home",
@@ -194,7 +194,6 @@ export default {
     ...mapActions("auth", [
       "turnOffFirstTime",
       "setUserName",
-      "setUserId",
       "signup",
       "signIn",
       "setSignInError",
@@ -244,7 +243,6 @@ export default {
       }
 
       if (!errors) {
-
         //Save user and turn off first time;
         //TODO: Save User to API
         // await UniqueDeviceID.get()
@@ -252,23 +250,20 @@ export default {
         //     console.log(uuid);
         //   const username = uuid;
         //   const password = this.pin;
-        //   this.signup({
-        //     username: username,
-        //     password: password,
-        //     name: this.name,
-        //   }).then(() => {
-        //     console.log(
-        //       this.authenticationErrorObject.response.data.exception
-        //     );
-        //     if (
-        //       this.authenticationErrorObject.response.data.exception ===
-        //       "Illuminate\\Database\\QueryException"
-        //     ) {
-        //       this.turnOffFirstTime();
-        //       this.setUserId(uuid);
-        //       this.router.push({ name: "Login" });
-        //     }
-        //   });
+        this.signup({
+          username: this.name,
+          password: this.pin,
+        }).then(() => {
+          console.log(this.authenticationErrorObject.response);
+          // if (
+          //   this.authenticationErrorObject.response.data.exception ===
+          //   "Illuminate\\Database\\QueryException"
+          // ) {
+          //   this.turnOffFirstTime();
+          //   this.setUserName(this.name);
+          //   this.router.push({ name: "Login" });
+          // }
+        });
 
         //   this.signIn({ username: username, password: password }).then(() => {
         //     this.setUserName(this.name);
@@ -277,9 +272,9 @@ export default {
         // })
         // .catch((error) => console.log(error));
 
-        this.turnOffFirstTime();
-        TokenService.saveToken("bla");
-        this.router.push("/tabs/home");
+        // this.turnOffFirstTime();
+        // TokenService.saveToken("bla");
+        // this.router.push("/tabs/home");
       }
     },
   },

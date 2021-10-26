@@ -5,7 +5,6 @@ import { UserService } from "@/services/user.service";
 
 const state = {
   userName: null,
-  userId: null,
   isNotFirstTime: null,
   authenticating: false,
   accessToken: TokenService.getToken(),
@@ -38,10 +37,6 @@ const getters = {
 
   userName: (state) => {
     return state.userName;
-  },
-
-  userId: (state) => {
-    return state.userId;
   },
 };
 
@@ -93,9 +88,9 @@ const actions = {
     return state.refreshTokenPromise;
   },
 
-  async signup(context, { username, password, name }) {
+  async signup(context, { username, password }) {
     try {
-      await AuthService.signup(username, password, name);
+      await AuthService.signup(username, password);
       context.commit("processSuccess");
       return true;
     } catch (e) {
@@ -125,14 +120,6 @@ const actions = {
   setUserName: ({ commit }, name) => {
     commit("saveUserName", name);
   },
-
-  setUserRealName: ({ commit }, name) => {
-    commit("saveUserRealName", name);
-  },
-
-  setUserId: ({ commit }, id) => {
-    commit("saveUserId", id);
-  },
 };
 
 const mutations = {
@@ -144,10 +131,6 @@ const mutations = {
 
     if (UserService.getUserName()) {
       state.userName = UserService.getUserName();
-    }
-
-    if (UserService.getUserId()) {
-      state.userId = UserService.getUserId();
     }
   },
 
@@ -193,11 +176,6 @@ const mutations = {
   saveUserName(state, name) {
     state.userName = name;
     UserService.saveUserName(name);
-  },
-
-  saveUserId(state, id) {
-    state.userId = id;
-    UserService.saveUserId(id);
   },
 };
 
