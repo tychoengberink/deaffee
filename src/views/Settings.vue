@@ -33,6 +33,15 @@
             </ion-item>
           </ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col size="4"> </ion-col>
+          <ion-col size="4">
+            <ion-button :disabled="true" @click="saveSettings">
+              Not yet supported
+            </ion-button>
+            <ion-col size="4"> </ion-col>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-content>
   </ion-page>

@@ -78,7 +78,7 @@ export default {
   },
 
   mounted() {
-    ApiService.get("table").then((response) => (this.tables = response.data));
+    ApiService.get("api/table").then((response) => (this.tables = response.data));
   },
 
   methods: {

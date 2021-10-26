@@ -5,6 +5,7 @@ const UserService = {
   getUserName() {
     return localStorage.getItem(USERNAME_KEY);
   },
+
   getUserId() {
     return localStorage.getItem(USERID_KEY);
   },

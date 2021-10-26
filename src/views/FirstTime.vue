@@ -19,7 +19,7 @@
               ></ion-input>
               <ion-text
                 color="danger"
-                v-show="this.errors.errorName && this.submitted"
+                v-show="this.errors.errorName && this.authenticating"
                 padding-left
               >
                 Name is required
@@ -47,14 +47,21 @@
               ></ion-input>
               <ion-text
                 color="danger"
-                v-show="this.errors.errorPin && this.submitted"
+                v-show="this.errors.errorNumberPin && this.authenticating"
+                padding-left
+              >
+                Pin is not a number
+              </ion-text>
+              <ion-text
+                color="danger"
+                v-show="this.errors.errorPin && this.authenticating"
                 padding-left
               >
                 Pin is required
               </ion-text>
               <ion-text
                 color="danger"
-                v-show="this.errors.same && this.submitted"
+                v-show="this.errors.same && this.authenticating"
                 padding-left
               >
                 Pin and confirmPin need to be the same
@@ -74,14 +81,23 @@
               ></ion-input>
               <ion-text
                 color="danger"
-                v-show="this.errors.errorConfirmPin && this.submitted"
+                v-show="
+                  this.errors.errorConfirmNumberPin && this.authenticating
+                "
+                padding-left
+              >
+                Pin is not a number
+              </ion-text>
+              <ion-text
+                color="danger"
+                v-show="this.errors.errorConfirmPin && this.authenticating"
                 padding-left
               >
                 Pin is required
               </ion-text>
               <ion-text
                 color="danger"
-                v-show="this.errors.same && this.submitted"
+                v-show="this.errors.same && this.authenticating"
                 padding-left
               >
                 Pin and confirmPin need to be the same
@@ -95,6 +111,14 @@
             <ion-button @click="clickRegister">
               Register
             </ion-button>
+
+            <ion-text
+              color="danger"
+              v-show="this.authenticationError && this.authenticating"
+              padding-left
+            >
+              {{ authenticationError }}
+            </ion-text>
           </ion-col>
           <ion-col size="4"> </ion-col>
         </ion-row>
@@ -117,9 +141,9 @@ import {
   IonButton,
   IonText,
 } from "@ionic/vue";
-import { TokenService } from "../services/token.service";
 import { useRouter } from "vue-router";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import { TokenService } from '../services/token.service';
 
 export default {
   name: "Home",
@@ -136,6 +160,7 @@ export default {
     IonButton,
     IonText,
   },
+  //TODO FIX register
 
   data() {
     return {
@@ -144,11 +169,12 @@ export default {
         errorName: false,
         errorPin: false,
         errorConfirmPin: false,
+        errorNumberPin: false,
+        errorConfirmNumberPin: false,
         same: false,
       },
       pin: null,
       confirmPin: null,
-      submitted: false,
     };
   },
 
@@ -159,18 +185,41 @@ export default {
     };
   },
 
-  methods: {
-    ...mapActions("auth", ["turnOffFirstTime", "setUserName", "setUserId"]),
-    clickRegister() {
-      this.submitted = true;
+  computed: {
+    ...mapGetters("auth", ["authenticationError", "authenticationErrorObject"]),
+  },
 
-      if (isNaN(this.pin) || this.pin === null) {
+  methods: {
+    ...mapGetters("auth", ["authenticating", "authenticationErrorCode"]),
+    ...mapActions("auth", [
+      "turnOffFirstTime",
+      "setUserName",
+      "setUserId",
+      "signup",
+      "signIn",
+      "setSignInError",
+    ]),
+
+    async clickRegister() {
+      if (isNaN(this.pin)) {
+        this.errors.errorNumberPin = true;
+      } else {
+        this.errors.errorNumberPin = false;
+      }
+
+      if (isNaN(this.confirmPin)) {
+        this.errors.errorConfirmNumberPin = true;
+      } else {
+        this.errors.errorConfirmNumberPin = false;
+      }
+
+      if (this.pin === null) {
         this.errors.errorPin = true;
       } else {
         this.errors.errorPin = false;
       }
 
-      if (isNaN(this.confirmPin) || this.confirmPin === null) {
+      if (this.confirmPin === null) {
         this.errors.errorConfirmPin = true;
       } else {
         this.errors.errorConfirmPin = false;
@@ -195,12 +244,39 @@ export default {
       }
 
       if (!errors) {
+
         //Save user and turn off first time;
         //TODO: Save User to API
-        this.submitted = false;
+        // await UniqueDeviceID.get()
+        //   .then((uuid) => {
+        //     console.log(uuid);
+        //   const username = uuid;
+        //   const password = this.pin;
+        //   this.signup({
+        //     username: username,
+        //     password: password,
+        //     name: this.name,
+        //   }).then(() => {
+        //     console.log(
+        //       this.authenticationErrorObject.response.data.exception
+        //     );
+        //     if (
+        //       this.authenticationErrorObject.response.data.exception ===
+        //       "Illuminate\\Database\\QueryException"
+        //     ) {
+        //       this.turnOffFirstTime();
+        //       this.setUserId(uuid);
+        //       this.router.push({ name: "Login" });
+        //     }
+        //   });
 
-        this.setUserName(this.name);
-        this.setUserId(1);
+        //   this.signIn({ username: username, password: password }).then(() => {
+        //     this.setUserName(this.name);
+        //     this.setUserId(1);
+        //   });
+        // })
+        // .catch((error) => console.log(error));
+
         this.turnOffFirstTime();
         TokenService.saveToken("bla");
         this.router.push("/tabs/home");

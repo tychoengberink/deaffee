@@ -1,4 +1,5 @@
 //Used from https://www.djamware.com/post/5fc19e3e77862f22905c7f03/ionic-5-tutorial-oauth2-login-example-vue
+
 import { ApiService } from "./api.service";
 import { TokenService } from "./token.service";
 import qs from "qs";
@@ -6,12 +7,13 @@ import qs from "qs";
 var ISNOTFIRSTTIME = "first_time";
 
 class AuthenticationError extends Error {
-  constructor(errorCode, message) {
+  constructor(errorCode, message, errorObject) {
     super(message);
     this.name = this.constructor.name;
     if (message != null) {
       this.message = message;
     }
+    this.errorObject = errorObject;
     this.errorCode = errorCode;
   }
 }
@@ -33,6 +35,7 @@ const AuthService = {
       url: "/oauth/token",
       data: qs.stringify({
         grant_type: "password",
+        scope: "*",
         username: signInData.username,
         password: signInData.password,
       }),
@@ -52,15 +55,16 @@ const AuthService = {
     }
   },
 
-  signup: async function(email, password, name) {
+  signup: async function(username, password, name) {
     const signupData = {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      url: "/oauth/signup",
+      url: "api/user",
       data: {
-        email: email,
+        username: username,
         password: password,
         name: name,
+        role_id: 1,
       },
     };
 
@@ -90,7 +94,7 @@ const AuthService = {
       description = error.response.data.error_description;
     }
 
-    throw new AuthenticationError(status, description);
+    throw new AuthenticationError(status, description, error);
   },
 
   getFirstTimeLogin() {

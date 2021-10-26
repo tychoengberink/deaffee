@@ -138,7 +138,7 @@ export default defineComponent({
       SpeechRecognition.stopListening();
       this.listening = false;
 
-      ApiService.post("sentence", sentence)
+      ApiService.post("api/sentence", sentence)
         .then((response) => {
           sentence.push({ id: response.data.id });
           this.editConversation.sentences.push(sentence);

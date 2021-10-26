@@ -151,9 +151,9 @@ export default {
     },
 
     async getConversation() {
-      ApiService.get("order/" + this.activeOrder).then((response) => {
+      ApiService.get("api/order/" + this.activeOrder).then((response) => {
         this.order = response.data;
-        ApiService.get("conversation/" + response.data.conversation.id).then(
+        ApiService.get("api/conversation/" + response.data.conversation.id).then(
           (response) => {
             this.conversation = response.data;
             this.loading = false;

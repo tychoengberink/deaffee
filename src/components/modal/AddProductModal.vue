@@ -74,7 +74,7 @@ export default defineComponent({
     return {
       closeOutline,
       editOrder: this.order,
-      product: { name: null, amount: 0 },
+      product: { name: null, amount: 0, price: 0 },
     };
   },
   components: {
@@ -98,9 +98,17 @@ export default defineComponent({
     },
 
     addProductClick() {
-      ApiService.post("order/" + this.order.id + "/product").then(() => {
-        this.editOrder.products.push(this.product);
-        this.dismissModal();
+      ApiService.post("api/product", {
+        name: this.product.name,
+        price: parseInt(this.product.price),
+      }).then((response) => {
+        ApiService.post("api/order/" + this.order.id + "/product", {
+          product_id: response.data.id,
+          amount: this.product.amount,
+        }).then(() => {
+          this.editOrder.products.push(this.product);
+          this.dismissModal();
+        });
       });
     },
   },

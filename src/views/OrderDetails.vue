@@ -167,7 +167,7 @@ export default {
     },
 
     async getOrder() {
-      ApiService.get("order/" + this.activeOrder)
+      ApiService.get("api/order/" + this.activeOrder)
         .then((response) => {
           this.order = response.data;
         })

@@ -81,7 +81,7 @@ export default {
   },
 
   ionViewWillEnter() {
-    ApiService.get("table/" + this.activeTable).then(
+    ApiService.get("api/table/" + this.activeTable).then(
       (response) => (this.orders = response.data.orders)
     );
   },
@@ -98,7 +98,7 @@ export default {
     ...mapActions("order", ["saveActiveOrder"]),
     async addOrderClick() {
       var order;
-      ApiService.post("order", { table_id: this.activeTable }).then(
+      ApiService.post("api/order", { table_id: this.activeTable }).then(
         (response) => {
           order = response.data;
           this.saveActiveOrder(order.id);

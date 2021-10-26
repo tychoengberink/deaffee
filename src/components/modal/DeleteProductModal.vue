@@ -83,7 +83,7 @@ export default defineComponent({
       modalController.dismiss();
     },
 
-    addProductClick() {
+    deleteProductClick() {
       //TODO DELETE product from order API
       this.editOrder.products.remove(this.product);
       this.dismissModal();

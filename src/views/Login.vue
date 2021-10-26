@@ -8,7 +8,7 @@
               <ion-img :src="require('@/images/logo.png')"></ion-img>
 
               <ion-item text-center>
-                <ion-label position="stacked" color="primary">Code</ion-label>
+                <ion-label position="stacked" color="primary">Your pincode</ion-label>
                 <ion-input
                   v-model="password"
                   name="password"

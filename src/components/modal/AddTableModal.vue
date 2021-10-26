@@ -109,7 +109,7 @@ export default defineComponent({
 
     async checkTableExists() {
       if (this.tableNumberValid()) {
-        await ApiService.get("table/" + this.tableNumber)
+        await ApiService.get("api/table/" + this.tableNumber)
           .then((response) => {
             console.log(response.code);
           })

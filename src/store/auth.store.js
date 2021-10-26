@@ -1,7 +1,7 @@
 //Used from https://www.djamware.com/post/5fc19e3e77862f22905c7f03/ionic-5-tutorial-oauth2-login-example-vue
 import { AuthenticationError, AuthService } from "@/services/auth.service";
 import { TokenService } from "@/services/token.service";
-import { UserService } from "../services/user.service";
+import { UserService } from "@/services/user.service";
 
 const state = {
   userName: null,
@@ -11,6 +11,7 @@ const state = {
   accessToken: TokenService.getToken(),
   authenticationErrorCode: 0,
   authenticationError: "",
+  authenticationErrorObject: null,
   refreshTokenPromise: null,
 };
 
@@ -21,6 +22,10 @@ const getters = {
 
   authenticationError: (state) => {
     return state.authenticationError;
+  },
+
+  authenticationErrorObject: (state) => {
+    return state.authenticationErrorObject;
   },
 
   authenticating: (state) => {
@@ -88,9 +93,9 @@ const actions = {
     return state.refreshTokenPromise;
   },
 
-  async signup(context, { email, password, name }) {
+  async signup(context, { username, password, name }) {
     try {
-      await AuthService.signup(email, password, name);
+      await AuthService.signup(username, password, name);
       context.commit("processSuccess");
       return true;
     } catch (e) {
@@ -98,6 +103,7 @@ const actions = {
         context.commit("signInError", {
           errorCode: e.errorCode,
           errorMessage: e.message,
+          errorObject: e.errorObject,
         });
       }
       return false;
@@ -108,12 +114,20 @@ const actions = {
     context.commit("setAuthenticatingStatus", status);
   },
 
+  setSignInError(context, { errorCode, errorMessage, errorObject }) {
+    context.commit("signInError", { errorCode, errorMessage, errorObject });
+  },
+
   turnOffFirstTime: ({ commit }) => {
     commit("turnOffFirstTime");
   },
 
   setUserName: ({ commit }, name) => {
     commit("saveUserName", name);
+  },
+
+  setUserRealName: ({ commit }, name) => {
+    commit("saveUserRealName", name);
   },
 
   setUserId: ({ commit }, id) => {
@@ -153,10 +167,11 @@ const mutations = {
     state.authenticating = false;
   },
 
-  signInError(state, { errorCode, errorMessage }) {
+  signInError(state, { errorCode, errorMessage, errorObject }) {
     state.authenticating = false;
     state.authenticationErrorCode = errorCode;
     state.authenticationError = errorMessage;
+    state.authenticationErrorObject = errorObject;
   },
 
   signOutRequest(state) {
