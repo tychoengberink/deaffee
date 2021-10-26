@@ -16,6 +16,13 @@
           <ion-item>
             <ion-label position="stacked">Product</ion-label>
             <ion-input v-model="product.name"></ion-input>
+            <ion-text
+              color="danger"
+              v-show="this.errorName && this.submitted"
+              padding-left
+            >
+             Name can not be empty
+            </ion-text>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -24,6 +31,13 @@
           <ion-item>
             <ion-label position="stacked">Amount</ion-label>
             <ion-input v-model="product.amount" type="number"></ion-input>
+            <ion-text
+              color="danger"
+              v-show="this.errorAmount && this.submitted"
+              padding-left
+            >
+              Amount can not be empty
+            </ion-text>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -32,6 +46,13 @@
           <ion-item>
             <ion-label position="stacked">Price</ion-label>
             <ion-input v-model="product.price" type="number"></ion-input>
+            <ion-text
+              color="danger"
+              v-show="this.errorNumber && this.submitted"
+              padding-left
+            >
+              Number can not be empty
+            </ion-text>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -73,8 +94,9 @@ export default defineComponent({
   data() {
     return {
       closeOutline,
+      submitted: false,
       editOrder: this.order,
-      product: { name: null, amount: 0, price: 0 },
+      product: { name: null, amount: null, price: null },
     };
   },
   components: {
@@ -98,6 +120,18 @@ export default defineComponent({
     },
 
     addProductClick() {
+      if(this.product.name === null){
+
+      }
+      
+      if(){
+
+      }
+
+      if(){
+
+      }
+      this.submitted = true;
       ApiService.post("api/product", {
         name: this.product.name,
         price: parseInt(this.product.price),
@@ -106,6 +140,7 @@ export default defineComponent({
           product_id: response.data.id,
           amount: this.product.amount,
         }).then(() => {
+          this.submitted = false;
           this.editOrder.products.push(this.product);
           this.dismissModal();
         });
