@@ -21,7 +21,7 @@
               v-show="this.errorName && this.submitted"
               padding-left
             >
-             Name can not be empty
+              Name can not be empty
             </ion-text>
           </ion-item>
         </ion-col>
@@ -120,28 +120,19 @@ export default defineComponent({
     },
 
     addProductClick() {
-      if(this.product.name === null){
-
-      }
-      
-      if(){
-
-      }
-
-      if(){
-
-      }
       this.submitted = true;
       ApiService.post("api/product", {
         name: this.product.name,
         price: parseInt(this.product.price),
       }).then((response) => {
+        const product = response.data;
+        console.log(this.order);
         ApiService.post("api/order/" + this.order.id + "/product", {
           product_id: response.data.id,
           amount: this.product.amount,
         }).then(() => {
-          this.submitted = false;
-          this.editOrder.products.push(this.product);
+          product.amount = this.product.amount;
+          this.editOrder.products.push(product);
           this.dismissModal();
         });
       });

@@ -24,13 +24,6 @@ const AuthService = {
       method: "post",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization:
-          "Basic " +
-          btoa(
-            process.env.VUE_APP_CLIENT_ID +
-              ":" +
-              process.env.VUE_APP_CLIENT_SECRET
-          ),
       },
       url: "/oauth/token",
       data: qs.stringify({
@@ -38,11 +31,14 @@ const AuthService = {
         scope: "*",
         username: signInData.username,
         password: signInData.password,
+        client_id: process.env.VUE_APP_CLIENT_ID,
+        client_secret: process.env.VUE_APP_CLIENT_SECRET,
       }),
     };
 
     try {
       const response = await ApiService.customRequest(requestData);
+      console.log(response);
       TokenService.saveToken(response.data.access_token);
       TokenService.saveRefreshToken(response.data.refresh_token);
       ApiService.setHeader();

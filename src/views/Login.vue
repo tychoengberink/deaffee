@@ -8,7 +8,9 @@
               <ion-img :src="require('@/images/logo.png')"></ion-img>
 
               <ion-item text-center>
-                <ion-label position="stacked" color="primary">Your pincode</ion-label>
+                <ion-label position="stacked" color="primary"
+                  >Your pincode</ion-label
+                >
                 <ion-input
                   v-model="password"
                   name="password"
@@ -70,9 +72,8 @@ import {
   IonImg,
   IonCol,
 } from "@ionic/vue";
-import { TokenService } from "@/services/token.service";
 import { useRouter } from "vue-router";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 // import { UserService } from "@/services/user.service";
 
@@ -109,11 +110,13 @@ export default {
 
   ionViewWillEnter() {
     if (!this.isNotFirstTime) {
-      this.router.push({ name: "Register" });
-    } 
+      //this.router.push({ name: "Register" });
+    }
   },
 
   methods: {
+    ...mapActions("auth", ["signIn"]),
+
     passwordValid() {
       if (this.password == null) {
         this.loading = false;
@@ -129,14 +132,13 @@ export default {
 
     onLogin() {
       this.submitted = true;
-      if (this.passwordValid()) {
-        //TODO api login call
-        //Testing
-        // UserService.saveUser();
-        TokenService.saveToken("bla");
+      this.signIn({
+        username: "ocartwright",
+        password: "password",
+      }).then(() => {
         this.router.push("/tabs/home");
         this.submitted = false;
-      }
+      });
     },
   },
 };
