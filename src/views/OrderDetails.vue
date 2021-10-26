@@ -115,10 +115,9 @@ export default {
 
     totalPrice: function() {
       var total = 0;
-
-      for (const key in this.order.products) {
-        total += this.order.products[key].price * this.order.products[key].amount;
-      }
+      this.order.products.forEach((product) => {
+        total += product.price * product.amount;
+      });
 
       return total;
     },
@@ -175,7 +174,11 @@ export default {
     },
 
     checkOutClick() {
-      //TODO: Save payed to order on API
+      ApiService.put("/api/order/" + this.activeOrder, {
+        isPaid: 1,
+      }).then(() => {
+        this.router.push("Home");
+      });
     },
   },
 };

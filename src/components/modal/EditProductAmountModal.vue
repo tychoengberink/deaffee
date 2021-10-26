@@ -14,8 +14,9 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="stacked">amount</ion-label>
+            <ion-label position="stacked">Amount</ion-label>
             <ion-input
+              :disabled="true"
               v-model="this.editedProduct.amount"
               type="number"
             ></ion-input>
@@ -23,10 +24,22 @@
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col size="6">
+          <ion-button expand="block" @click="addProductClick"
+            ><ion-icon :icon="add"> </ion-icon
+          ></ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button expand="block" @click="minProductClick"
+            ><ion-icon :icon="removeOutline"> </ion-icon
+          ></ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col>
           <ion-button expand="block" @click="editProductClick"
-            >Edit amount</ion-button
-          >
+            >Save amount
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -50,8 +63,10 @@ import {
   IonLabel,
   modalController,
 } from "@ionic/vue";
-import { closeOutline } from "ionicons/icons";
+import { closeOutline, add, removeOutline } from "ionicons/icons";
 import { defineComponent } from "vue";
+import { mapGetters } from "vuex";
+import { ApiService } from "../../services/api.service";
 
 export default defineComponent({
   name: "editProductAmountModal",
@@ -60,6 +75,8 @@ export default defineComponent({
     return {
       editedProduct: this.product,
       closeOutline,
+      add,
+      removeOutline,
     };
   },
   components: {
@@ -78,12 +95,27 @@ export default defineComponent({
     IonLabel,
   },
   methods: {
+    ...mapGetters("order", ["activeOrder"]),
+
     dismissModal() {
       modalController.dismiss();
     },
 
+    addProductClick() {
+      this.editedProduct.amount++;
+    },
+
+    minProductClick() {
+      if (this.editedProduct.amount != 1) {
+        --this.editedProduct.amount;
+      }
+    },
+
     editProductClick() {
-      //TODO save product order to api
+      ApiService.put(
+        "/api/order/" + this.activeOrder + "/product/" + this.product.id,
+        { amount: this.editedProduct.amount }
+      );
       this.dismissModal();
     },
   },

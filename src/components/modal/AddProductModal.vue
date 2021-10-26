@@ -18,10 +18,10 @@
             <ion-input v-model="product.name"></ion-input>
             <ion-text
               color="danger"
-              v-show="this.errorName && this.submitted"
+              v-show="this.errors.errorName && this.submitted"
               padding-left
             >
-             Name can not be empty
+              Name can not be empty
             </ion-text>
           </ion-item>
         </ion-col>
@@ -33,7 +33,7 @@
             <ion-input v-model="product.amount" type="number"></ion-input>
             <ion-text
               color="danger"
-              v-show="this.errorAmount && this.submitted"
+              v-show="this.errors.errorAmount && this.submitted"
               padding-left
             >
               Amount can not be empty
@@ -48,10 +48,10 @@
             <ion-input v-model="product.price" type="number"></ion-input>
             <ion-text
               color="danger"
-              v-show="this.errorNumber && this.submitted"
+              v-show="this.errors.errorPrice && this.submitted"
               padding-left
             >
-              Number can not be empty
+              Price can not be empty
             </ion-text>
           </ion-item>
         </ion-col>
@@ -61,6 +61,13 @@
           <ion-button expand="block" @click="addProductClick"
             >Add product</ion-button
           >
+          <ion-text
+            color="danger"
+            v-show="this.uniqueError && this.submitted"
+            padding-left
+          >
+            Product need to be unique
+          </ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -96,6 +103,12 @@ export default defineComponent({
       closeOutline,
       submitted: false,
       editOrder: this.order,
+      errors: {
+        errorName: false,
+        errorPrice: false,
+        errorAmount: false,
+      },
+      uniqueError: false,
       product: { name: null, amount: null, price: null },
     };
   },
@@ -114,37 +127,61 @@ export default defineComponent({
     IonInput,
     IonLabel,
   },
+
   methods: {
     dismissModal() {
       modalController.dismiss();
     },
 
     addProductClick() {
-      if(this.product.name === null){
-
-      }
-      
-      if(){
-
-      }
-
-      if(){
-
-      }
       this.submitted = true;
-      ApiService.post("api/product", {
-        name: this.product.name,
-        price: parseInt(this.product.price),
-      }).then((response) => {
-        ApiService.post("api/order/" + this.order.id + "/product", {
-          product_id: response.data.id,
-          amount: this.product.amount,
-        }).then(() => {
-          this.submitted = false;
-          this.editOrder.products.push(this.product);
-          this.dismissModal();
-        });
-      });
+      if (this.product.name === null || 0) {
+        this.errors.errorName = true;
+      } else {
+        this.errors.errorName = false;
+      }
+
+      if (this.product.amount === null || 0) {
+        this.errors.errorAmount = true;
+      } else {
+        this.errors.errorAmount = false;
+      }
+
+      if (this.product.price === null || 0) {
+        this.errors.errorPrice = true;
+      } else {
+        this.errors.errorPrice = false;
+      }
+
+      var errors = false;
+      for (const key in this.errors) {
+        if (this.errors[key]) {
+          errors = true;
+        }
+      }
+
+      if (!errors) {
+        this.uniqueError = false;
+        ApiService.post("api/product", {
+          name: this.product.name,
+          price: parseInt(this.product.price),
+        })
+          .then((response) => {
+            ApiService.post("api/order/" + this.order.id + "/product", {
+              product_id: response.data.id,
+              amount: this.product.amount,
+            }).then(() => {
+              this.submitted = false;
+              this.editOrder.products.push(this.product);
+              this.dismissModal();
+            });
+          })
+          .catch((error) => {
+            if (error.response.status === 500) {
+              this.uniqueError = true;
+            }
+          });
+      }
     },
   },
 });
