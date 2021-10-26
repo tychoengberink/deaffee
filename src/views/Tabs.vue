@@ -11,7 +11,7 @@
         <ion-tab-button
           :disabled="!this.activeTable"
           tab="tabledetails"
-          href="/tabs/orders"
+          href="/tabs/order"
         >
           <ion-icon :icon="clipboardOutline" />
           <ion-label>Order</ion-label>

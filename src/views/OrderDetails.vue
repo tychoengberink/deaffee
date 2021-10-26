@@ -115,9 +115,10 @@ export default {
 
     totalPrice: function() {
       var total = 0;
-      this.order.products.forEach((product) => {
-        total += product.price * product.amount;
-      });
+
+      for (const key in this.order.products) {
+        total += this.order.products[key].price * this.order.products[key].amount;
+      }
 
       return total;
     },
@@ -138,7 +139,7 @@ export default {
       closeOutline,
       createOutline,
       trashBinOutline,
-      order: this.$route.params.order,
+      order: null,
       loading: true,
     };
   },
@@ -167,11 +168,10 @@ export default {
     },
 
     async getOrder() {
-      ApiService.get("api/order/" + this.activeOrder)
-        .then((response) => {
-          this.order = response.data;
-        })
-        .finally(() => (this.loading = false));
+      ApiService.get("api/order/" + this.activeOrder).then((response) => {
+        this.order = response.data;
+        this.loading = false;
+      });
     },
 
     checkOutClick() {
