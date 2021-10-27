@@ -23,3 +23,22 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+// import { Storage } from '@ionic/storage';
+// const storage = new Storage;
+
+Cypress.Commands.add('checkAccessToken', (token) => {
+    cy.window().its('localStorage.access_token').should('eq', token)
+});
+
+// Cypress.Commands.add('enableTutorial', () => {
+//     cy.visit('/', {
+//         onBeforeLoad() {
+//             storage.set('ion_did_tutorial', false)
+//         }
+//     })
+// })
+
+//   Cypress.Commands.add('login', (token) => {
+//     cy.window().its('localStorage.access_token').should('eq', token)
+//   })

@@ -13,21 +13,17 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-item>
             <ion-title position="stacked"
-              >Are you sure you want to delete this product?</ion-title
+              >Delete this product?</ion-title
             >
-          </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-item>
-            <ion-buttons>
               <ion-button @click="dismissModal"> No </ion-button>
-              <ion-button @click="deleteProductClick"> Yes </ion-button>
-            </ion-buttons>
-          </ion-item>
+        </ion-col>
+        <ion-col>
+            <ion-button @click="deleteProductClick"> Yes </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -46,7 +42,6 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonItem,
   modalController,
 } from "@ionic/vue";
 import { closeOutline } from "ionicons/icons";
@@ -73,7 +68,6 @@ export default defineComponent({
     IonGrid,
     IonRow,
     IonCol,
-    IonItem,
   },
   methods: {
     dismissModal() {
@@ -83,9 +77,7 @@ export default defineComponent({
     deleteProductClick() {
         ApiService.delete(
           "api/order/" + this.order.id + "/product/" + this.product.id
-        ).then((response) => {
-          console.log(response);
-        });
+        );
 
       this.editOrder.products.splice(this.product);
       this.dismissModal();

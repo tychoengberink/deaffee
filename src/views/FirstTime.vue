@@ -18,6 +18,7 @@
                 v-model="name"
                 name="name"
                 type="text"
+                data-cy="name"
                 required
               ></ion-input>
               <ion-text
@@ -49,6 +50,7 @@
                 name="pin"
                 type="password"
                 pattern="[0-9]*"
+                data-cy="pin"
                 required
               ></ion-input>
               <ion-text
@@ -79,6 +81,7 @@
                 name="confirmPin"
                 type="password"
                 pattern="[0-9]*"
+                data-cy="confirmPin"
                 required
               ></ion-input>
               <ion-text
@@ -239,7 +242,7 @@ export default {
 
             this.uniqueError = false;
             this.signIn(pin, name).then(() => {
-              this.router.push({ name: "Home" });
+              this.router.push("/tabs/home");
             });
           })
           .catch((error) => {

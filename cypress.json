@@ -1,5 +1,7 @@
 {
   "pluginsFile": "tests/e2e/plugins/index.js",
   "testFiles": "**/*.js",
-  "componentFolder": "src"
+  "componentFolder": "src",
+  "viewportHeight": 736,
+  "viewportWidth": 414
 }

@@ -104,7 +104,6 @@ export default defineComponent({
       };
 
       this.listening = false;
-      console.log(sentence);
       ApiService.post("api/sentence", sentence)
         .then((response) => {
           sentence.push({ id: response.data.id });

@@ -123,8 +123,7 @@ export default defineComponent({
         (matches) => {
           this.speechToTextOutput = matches.toString();
           this.matches = matches;
-        },
-        (onerror) => console.log("error:", onerror)
+        }
       );
     },
     pushToStop() {
