@@ -6,20 +6,8 @@ import qs from "qs";
 
 var ISNOTFIRSTTIME = "first_time";
 
-class AuthenticationError extends Error {
-  constructor(errorCode, message, errorObject) {
-    super(message);
-    this.name = this.constructor.name;
-    if (message != null) {
-      this.message = message;
-    }
-    this.errorObject = errorObject;
-    this.errorCode = errorCode;
-  }
-}
-
 const AuthService = {
-  signIn: async function(signInData) {
+  signIn: async function(password, username) {
     const requestData = {
       method: "post",
       headers: {
@@ -29,26 +17,20 @@ const AuthService = {
       data: qs.stringify({
         grant_type: "password",
         scope: "*",
-        username: signInData.username,
-        password: signInData.password,
+        username: username,
+        password: password,
         client_id: process.env.VUE_APP_CLIENT_ID,
         client_secret: process.env.VUE_APP_CLIENT_SECRET,
       }),
     };
+    const response = await ApiService.customRequest(requestData);
+    TokenService.saveToken(response.data.access_token);
+    TokenService.saveRefreshToken(response.data.refresh_token);
+    ApiService.setHeader();
 
-    try {
-      const response = await ApiService.customRequest(requestData);
-      console.log(response);
-      TokenService.saveToken(response.data.access_token);
-      TokenService.saveRefreshToken(response.data.refresh_token);
-      ApiService.setHeader();
+    ApiService.mount401Interceptor();
 
-      ApiService.mount401Interceptor();
-
-      return response.data.access_token;
-    } catch (error) {
-      this.catchError(error);
-    }
+    return response.data.access_token;
   },
 
   signup: async function(username, password) {
@@ -59,15 +41,12 @@ const AuthService = {
       data: {
         username: username,
         password: password,
+        name: "Kees",
         role_id: 1,
       },
     };
 
-    try {
-      return await ApiService.customRequest(signupData);
-    } catch (error) {
-      this.catchError(error);
-    }
+    return await ApiService.customRequest(signupData);
   },
 
   signOut() {
@@ -75,21 +54,6 @@ const AuthService = {
     TokenService.removeRefreshToken();
     ApiService.removeHeader();
     ApiService.unmount401Interceptor();
-  },
-
-  catchError: function(error) {
-    let status;
-    let description;
-
-    if (error.response === undefined) {
-      status = error.message;
-      description = error.message;
-    } else {
-      status = error.response.status;
-      description = error.response.data.error_description;
-    }
-
-    throw new AuthenticationError(status, description, error);
   },
 
   getFirstTimeLogin() {
@@ -101,4 +65,4 @@ const AuthService = {
   },
 };
 
-export { AuthService, AuthenticationError };
+export { AuthService };

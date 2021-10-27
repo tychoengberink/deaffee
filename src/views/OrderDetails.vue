@@ -187,7 +187,7 @@ export default {
       ApiService.put("/api/order/" + this.activeOrder, {
         isPaid: 1,
       }).then(() => {
-        this.router.push("Home");
+        this.router.push("Orders");
       });
     },
   },

@@ -99,7 +99,6 @@ export default {
   },
   data() {
     return {
-      username: null,
       password: null,
       errors: {
         passwordEmpty: false,
@@ -118,10 +117,7 @@ export default {
 
   methods: {
     ...mapActions("auth", ["signIn"]),
-
-    passwordWrong() {
-      return true;
-    },
+    ...mapActions("auth", ["userName"]),
 
     onLogin() {
       this.submitted = true;
@@ -144,10 +140,7 @@ export default {
       }
 
       if (!errors) {
-        this.signIn({
-          username: this.username,
-          password: this.password,
-        }).then(() => {
+        this.signIn(this.password, this.userName).then(() => {
           this.router.push({ name: "Home" });
           this.submitted = false;
         });

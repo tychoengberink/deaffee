@@ -2,6 +2,9 @@
   <ion-page>
     <ion-content :fullscreen="true">
       <ion-grid>
+        <br />
+        <br />
+
         <ion-row>
           <ion-col>
             <ion-title>We need your firstname</ion-title>
@@ -19,10 +22,13 @@
               ></ion-input>
               <ion-text
                 color="danger"
-                v-show="this.errors.errorName && this.authenticating"
+                v-show="this.errors.errorName"
                 padding-left
               >
                 Name is required
+              </ion-text>
+              <ion-text color="danger" v-show="this.uniqueError" padding-left>
+                Name is not unique!
               </ion-text>
             </ion-item>
           </ion-col>
@@ -47,23 +53,19 @@
               ></ion-input>
               <ion-text
                 color="danger"
-                v-show="this.errors.errorNumberPin && this.authenticating"
+                v-show="this.errors.errorNumberPin"
                 padding-left
               >
                 Pin is not a number
               </ion-text>
               <ion-text
                 color="danger"
-                v-show="this.errors.errorPin && this.authenticating"
+                v-show="this.errors.errorPin"
                 padding-left
               >
                 Pin is required
               </ion-text>
-              <ion-text
-                color="danger"
-                v-show="this.errors.same && this.authenticating"
-                padding-left
-              >
+              <ion-text color="danger" v-show="this.errors.same" padding-left>
                 Pin and confirmPin need to be the same
               </ion-text>
             </ion-item>
@@ -81,46 +83,30 @@
               ></ion-input>
               <ion-text
                 color="danger"
-                v-show="
-                  this.errors.errorConfirmNumberPin && this.authenticating
-                "
+                v-show="this.errors.errorConfirmNumberPin"
                 padding-left
               >
                 Pin is not a number
               </ion-text>
               <ion-text
                 color="danger"
-                v-show="this.errors.errorConfirmPin && this.authenticating"
+                v-show="this.errors.errorConfirmPin"
                 padding-left
               >
                 Pin is required
               </ion-text>
-              <ion-text
-                color="danger"
-                v-show="this.errors.same && this.authenticating"
-                padding-left
-              >
+              <ion-text color="danger" v-show="this.errors.same" padding-left>
                 Pin and confirmPin need to be the same
               </ion-text>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-          <ion-col size="4"> </ion-col>
-          <ion-col size="4">
-            <ion-button @click="clickRegister">
+          <ion-col size="12">
+            <ion-button expand="block" @click="clickRegister">
               Register
             </ion-button>
-
-            <ion-text
-              color="danger"
-              v-show="this.authenticationError && this.authenticating"
-              padding-left
-            >
-              {{ authenticationError }}
-            </ion-text>
           </ion-col>
-          <ion-col size="4"> </ion-col>
         </ion-row>
       </ion-grid>
     </ion-content>
@@ -143,7 +129,6 @@ import {
 } from "@ionic/vue";
 import { useRouter } from "vue-router";
 import { mapActions, mapGetters } from "vuex";
-import { TokenService } from "../services/token.service";
 
 export default {
   name: "Home",
@@ -160,7 +145,6 @@ export default {
     IonButton,
     IonText,
   },
-  //TODO FIX register
 
   data() {
     return {
@@ -173,6 +157,7 @@ export default {
         errorConfirmNumberPin: false,
         same: false,
       },
+      uniqueError: false,
       pin: null,
       confirmPin: null,
     };
@@ -186,17 +171,15 @@ export default {
   },
 
   computed: {
-    ...mapGetters("auth", ["authenticationError", "authenticationErrorObject"]),
+    ...mapGetters("auth", ["authenticating"]),
   },
 
   methods: {
-    ...mapGetters("auth", ["authenticating", "authenticationErrorCode"]),
     ...mapActions("auth", [
       "turnOffFirstTime",
       "setUserName",
       "signup",
       "signIn",
-      "setSignInError",
     ]),
 
     async clickRegister() {
@@ -243,38 +226,27 @@ export default {
       }
 
       if (!errors) {
-        //Save user and turn off first time;
-        //TODO: Save User to API
-        // await UniqueDeviceID.get()
-        //   .then((uuid) => {
-        //     console.log(uuid);
-        //   const username = uuid;
-        //   const password = this.pin;
-        this.signup({
-          username: this.name,
-          password: this.pin,
-        }).then(() => {
-          console.log(this.authenticationErrorObject.response);
-          // if (
-          //   this.authenticationErrorObject.response.data.exception ===
-          //   "Illuminate\\Database\\QueryException"
-          // ) {
-          //   this.turnOffFirstTime();
-          //   this.setUserName(this.name);
-          //   this.router.push({ name: "Login" });
-          // }
-        });
+        let name = this.name;
+        let pin = this.pin;
 
-        //   this.signIn({ username: username, password: password }).then(() => {
-        //     this.setUserName(this.name);
-        //     this.setUserId(1);
-        //   });
-        // })
-        // .catch((error) => console.log(error));
+        await this.signup({
+          username: name,
+          password: pin,
+        })
+          .then(() => {
+            this.setUserName(name);
+            this.turnOffFirstTime();
 
-        // this.turnOffFirstTime();
-        // TokenService.saveToken("bla");
-        // this.router.push("/tabs/home");
+            this.uniqueError = false;
+            this.signIn(pin, name).then(() => {
+              this.router.push({ name: "Home" });
+            });
+          })
+          .catch((error) => {
+            if (error.response.status === 500) {
+              this.uniqueError = true;
+            }
+          });
       }
     },
   },

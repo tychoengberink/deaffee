@@ -77,7 +77,7 @@ export default {
     };
   },
 
-  mounted() {
+  ionViewWillEnter() {
     ApiService.get("api/table").then((response) => (this.tables = response.data));
   },
 

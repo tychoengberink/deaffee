@@ -113,7 +113,7 @@ export default defineComponent({
 
     editProductClick() {
       ApiService.put(
-        "/api/order/" + this.activeOrder + "/product/" + this.product.id,
+        "/api/order/" + this.activeOrder() + "/product/" + this.product.id,
         { amount: this.editedProduct.amount }
       );
       this.dismissModal();
