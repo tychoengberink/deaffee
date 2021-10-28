@@ -3,5 +3,6 @@
   "testFiles": "**/*.js",
   "componentFolder": "src",
   "viewportHeight": 736,
-  "viewportWidth": 414
+  "viewportWidth": 414,
+  "projectId": "zd1t89"
 }

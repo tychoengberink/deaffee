@@ -67,7 +67,12 @@
               >
                 Pin is required
               </ion-text>
-              <ion-text color="danger" v-show="this.errors.same" padding-left>
+              <ion-text
+                data-cy="errorSame"
+                color="danger"
+                v-show="this.errors.same"
+                padding-left
+              >
                 Pin and confirmPin need to be the same
               </ion-text>
             </ion-item>
@@ -89,16 +94,21 @@
                 v-show="this.errors.errorConfirmNumberPin"
                 padding-left
               >
-                Pin is not a number
+                confirmPin is not a number
               </ion-text>
               <ion-text
                 color="danger"
                 v-show="this.errors.errorConfirmPin"
                 padding-left
               >
-                Pin is required
+                confirmPin is required
               </ion-text>
-              <ion-text color="danger" v-show="this.errors.same" padding-left>
+              <ion-text
+                data-cy="errorSame"
+                color="danger"
+                v-show="this.errors.same"
+                padding-left
+              >
                 Pin and confirmPin need to be the same
               </ion-text>
             </ion-item>
@@ -185,7 +195,7 @@ export default {
       "signIn",
     ]),
 
-    async clickRegister() {
+    clickRegister() {
       if (isNaN(this.pin)) {
         this.errors.errorNumberPin = true;
       } else {
@@ -232,16 +242,18 @@ export default {
         let name = this.name;
         let pin = this.pin;
 
-        await this.signup({
+        let signUp = this.signup({
           username: name,
           password: pin,
-        })
+        });
+        signUp
           .then(() => {
             this.setUserName(name);
             this.turnOffFirstTime();
-
             this.uniqueError = false;
-            this.signIn(pin, name).then(() => {
+
+            let signIn = this.signIn(pin, name);
+            signIn.then(() => {
               this.router.push("/tabs/home");
             });
           })

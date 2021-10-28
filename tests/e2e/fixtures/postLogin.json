@@ -1,0 +1,7 @@
+{
+  "statusCode": 200,
+  "body": {
+    "access_token": "12345678",
+    "refresh_token": "12345678"
+  }
+}

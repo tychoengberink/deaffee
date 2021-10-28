@@ -1,0 +1,43 @@
+{
+  "id": 1,
+  "created_at": "2021-10-26T22:40:25.000000Z",
+  "updated_at": "2021-10-26T22:40:25.000000Z",
+  "user_id": 5,
+  "table_id": 1,
+  "conversation_id": 1,
+  "isPaid": 0,
+  "isDelivered": 0,
+  "products": [
+      {
+          "id": 12,
+          "created_at": "2021-10-27T00:11:18.000000Z",
+          "updated_at": "2021-10-27T00:11:18.000000Z",
+          "name": "Tycho",
+          "price": 123,
+          "amount": 124,
+          "pivot": {
+              "order_id": 1,
+              "product_id": 12
+          }
+      }
+  ],
+  "conversation": {
+      "id": 1,
+      "created_at": "2021-10-26T22:40:25.000000Z",
+      "updated_at": "2021-10-26T22:40:25.000000Z"
+  },
+  "user": {
+      "id": 5,
+      "username": "hattie05",
+      "name": "Newell Muller DDS",
+      "role_id": 1,
+      "created_at": "2021-10-26T22:40:25.000000Z",
+      "updated_at": "2021-10-26T22:40:25.000000Z"
+  },
+  "table": {
+      "id": 1,
+      "created_at": "2021-10-26T22:40:25.000000Z",
+      "updated_at": "2021-10-26T22:40:25.000000Z",
+      "name": "Alice Glover"
+  }
+}

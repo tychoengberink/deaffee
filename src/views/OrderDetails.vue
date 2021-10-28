@@ -25,11 +25,13 @@
                 </ion-label>
                 <ion-button
                   v-if="!this.order.isPaid"
+                  data-cy="editProductButton"
                   @click="editProduct(product)"
                 >
                   <ion-icon slot="icon-only" :icon="createOutline"></ion-icon>
                 </ion-button>
                 <ion-button
+                  data-cy="removeProductButton"
                   v-if="!this.order.isPaid"
                   @click="removeProduct(product)"
                 >

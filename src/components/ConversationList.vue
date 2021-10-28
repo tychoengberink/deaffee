@@ -14,7 +14,7 @@
                 {{ item.text }}
                 <br>
                 <ion-button @click="textToSpeech(item.text)" size="small">
-                  <ion-icon :icon="chatboxOutline" />
+                  <ion-icon :icon="volumeHighOutline" />
                 </ion-button>
               </div>
             </div>
@@ -27,7 +27,7 @@
 
 <script>
 import { IonList, IonContent, IonButton, IonIcon } from "@ionic/vue";
-import { chatboxOutline } from "ionicons/icons";
+import { volumeHighOutline } from "ionicons/icons";
 import { TextToSpeech } from "@ionic-native/text-to-speech";
 export default {
   name: "ConversationList",
@@ -43,7 +43,7 @@ export default {
 
   setup() {
     return {
-      chatboxOutline,
+      volumeHighOutline,
     };
   },
 

@@ -2,12 +2,12 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-button @click="settingsClick">
+        <ion-button data-cy="settingsButton" @click="settingsClick">
           <ion-icon color="primary" :icon="settingsOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
       <ion-title mode="ios">{{ title }}</ion-title>
-      <ion-buttons slot="end">
+      <ion-buttons data-cy="lockButton" slot="end">
         <ion-button @click="lockClick">
           <ion-icon color="primary" :icon="lockClosedOutline"></ion-icon>
         </ion-button>

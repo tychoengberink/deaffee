@@ -28,14 +28,24 @@ const getters = {
 const actions = {
   async signIn({ getters, commit }, password) {
     commit("signInRequest");
-    AuthService.signIn(password, getters.userName).then((res) => {
-      commit("signInSuccess", res);
+    return new Promise((resolve, reject) => {
+      AuthService.signIn(password, getters.userName)
+        .then((res) => {
+          commit("signInSuccess", res);
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err.message);
+        });
     });
   },
 
   signOut(context) {
     context.commit("signOutRequest");
-    AuthService.signOut();
+    return new Promise((resolve) => {
+      AuthService.signOut();
+      resolve();
+    });
   },
 
   refreshToken(context, state) {
@@ -85,6 +95,10 @@ const mutations = {
     //So state gets saved when app is closed.
     if (AuthService.getFirstTimeLogin()) {
       state.isNotFirstTime = AuthService.getFirstTimeLogin();
+    }
+
+    if (TokenService.getToken()) {
+      state.accessToken = TokenService.getToken();
     }
 
     if (UserService.getUserName()) {

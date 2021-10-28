@@ -70,7 +70,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(TokenService.getToken());
   if (!to.meta.public) {
     if (to.name !== "Login" && !TokenService.getToken()) {
       next("Login");

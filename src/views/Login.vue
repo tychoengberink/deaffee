@@ -15,6 +15,7 @@
                   v-model="password"
                   name="password"
                   type="password"
+                  data-cy="password"
                   required
                 ></ion-input>
               </ion-item>

@@ -3,11 +3,12 @@ module.exports = {
   env: {
     node: true,
   },
-  plugins: ["jest"],
+  plugins: ["jest", "cypress"],
   extends: [
     "plugin:vue/vue3-essential",
     "eslint:recommended",
     "plugin:jest/recommended",
+    "plugin:cypress/recommended",
   ],
   parserOptions: {
     ecmaVersion: 2020,

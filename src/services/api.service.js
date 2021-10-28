@@ -47,7 +47,9 @@ const ApiService = {
     this._requestInterceptor = axios.interceptors.request.use(
       async (config) => {
         const loading = await loadingController.create({
-          message: "Please wait...",
+          showBackdrop: true,
+          message: "Please wait",
+          duration: 125,
         });
         await loading.present();
 
@@ -59,11 +61,9 @@ const ApiService = {
   mount401Interceptor() {
     this._401interceptor = axios.interceptors.response.use(
       (response) => {
-        loadingController.dismiss();
         return response;
       },
       async (error) => {
-        loadingController.dismiss();
         if (error.request.status === 401) {
           if (error.config.url.includes("oauth/token")) {
             await store.dispatch("auth/signOut");

@@ -61,13 +61,6 @@
           <ion-button expand="block" @click="addProductClick"
             >Add product</ion-button
           >
-          <ion-text
-            color="danger"
-            v-show="this.uniqueError && this.submitted"
-            padding-left
-          >
-            Product need to be unique
-          </ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -85,6 +78,7 @@ import {
   IonIcon,
   IonGrid,
   IonRow,
+  IonText,
   IonCol,
   IonItem,
   IonInput,
@@ -108,7 +102,6 @@ export default defineComponent({
         errorPrice: false,
         errorAmount: false,
       },
-      uniqueError: false,
       product: { name: null, amount: null, price: null },
     };
   },
@@ -120,6 +113,7 @@ export default defineComponent({
     IonButton,
     IonButtons,
     IonIcon,
+    IonText,
     IonGrid,
     IonRow,
     IonCol,
@@ -161,29 +155,37 @@ export default defineComponent({
       }
 
       if (!errors) {
-        this.uniqueError = false;
         ApiService.post("api/product", {
           name: this.product.name,
           price: parseInt(this.product.price),
         })
           .then((response) => {
-            const product = response.data;
-            ApiService.post("api/order/" + this.order.id + "/product", {
-              product_id: response.data.id,
-              amount: this.product.amount,
-            }).then(() => {
-              this.submitted = false;
-              product.amount = this.product.amount;
-              this.editOrder.products.push(product);
-              this.dismissModal();
-            });
+            this.addProductToOrder(response.data);
           })
           .catch((error) => {
             if (error.response.status === 500) {
-              this.uniqueError = true;
+              ApiService.get("api/product").then((response) => {
+                response.data.forEach((product) => {
+                  if (product.name === this.product.name) {
+                    this.addProductToOrder(product);
+                  }
+                });
+              });
             }
           });
       }
+    },
+
+    addProductToOrder(product) {
+      ApiService.post("api/order/" + this.order.id + "/product", {
+        product_id: product.id,
+        amount: this.product.amount,
+      }).then(() => {
+        this.submitted = false;
+        product.amount = this.product.amount;
+        this.editOrder.products.push(product);
+        this.dismissModal();
+      });
     },
   },
 });

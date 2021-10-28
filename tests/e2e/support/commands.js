@@ -27,18 +27,49 @@
 // import { Storage } from '@ionic/storage';
 // const storage = new Storage;
 
-Cypress.Commands.add('checkAccessToken', (token) => {
-    cy.window().its('localStorage.access_token').should('eq', token)
+const faker = require("faker");
+const ISNOTFIRSTTIME = "first_time";
+const USERNAME_KEY = "userName";
+
+
+Cypress.Commands.add("login", () => {
+  cy.fixture("postLogin").then((json) => {
+    cy.intercept("POST", "/oauth/token", json).as("loginUser");
+  });
+
+  let name = faker.name.firstName();
+  let code = faker.datatype.number({ min: 1000, max: 9999 });
+
+  localStorage.setItem(USERNAME_KEY, name);
+  localStorage.setItem(ISNOTFIRSTTIME, true);
+
+  cy.visit("/login");
+
+  cy.get("[data-cy=password]>input").type(code);
+
+  cy.get("ion-button").click();
 });
 
-// Cypress.Commands.add('enableTutorial', () => {
-//     cy.visit('/', {
-//         onBeforeLoad() {
-//             storage.set('ion_did_tutorial', false)
-//         }
-//     })
-// })
+Cypress.Commands.add("register", () => {
+  cy.fixture("postRegister").then((json) => {
+    cy.intercept("POST", "/api/user", json).as("createUser");
+  });
 
-//   Cypress.Commands.add('login', (token) => {
-//     cy.window().its('localStorage.access_token').should('eq', token)
-//   })
+  cy.fixture("postLogin").then((json) => {
+    cy.intercept("POST", "/oauth/token", json).as("loginUser");
+  });
+
+  let name = faker.name.firstName();
+  let code = faker.datatype.number({ min: 1000, max: 9999 });
+
+  cy.visit("/register");
+  cy.get("[data-cy=name]>input").type(name);
+  cy.get('input[name="pin"]')
+    .click()
+    .type(code);
+  cy.get('input[name="confirmPin"]')
+    .click()
+    .type(code);
+
+  cy.get("ion-button").click();
+});

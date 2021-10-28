@@ -1,0 +1,9 @@
+{
+  "statusCode": 201,
+  "body": {
+    "name": "test",
+    "username": "test",
+    "role_id": 1,
+    "id": 1
+  }
+}

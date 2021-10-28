@@ -24,7 +24,7 @@
               v-show="this.error && this.submitted"
               padding-left
             >
-              Please click to button to generate a sentence!
+              Please click the button to generate a sentence!
             </ion-text>
           </ion-item>
         </ion-col>
