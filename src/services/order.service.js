@@ -3,43 +3,43 @@ const ACTIVE_TABLE = "activeTable";
 const FINISHED_TALKING = "finishedTalking";
 
 const OrderService = {
-  getActiveOrder() {
-    return localStorage.getItem(ACTIVE_ORDER);
-  },
+    getActiveOrder() {
+        return localStorage.getItem(ACTIVE_ORDER);
+    },
 
-  saveActiveOrder(activeOrder) {
-    localStorage.setItem(ACTIVE_ORDER, activeOrder);
-  },
+    saveActiveOrder(activeOrder) {
+        localStorage.setItem(ACTIVE_ORDER, activeOrder);
+    },
 
-  removeActiveOrder() {
-    localStorage.removeItem(ACTIVE_ORDER);
-  },
+    removeActiveOrder() {
+        localStorage.removeItem(ACTIVE_ORDER);
+    },
 
-  getFinishedTalking() {
-    return localStorage.getItem(FINISHED_TALKING);
-  },
+    getFinishedTalking() {
+        return localStorage.getItem(FINISHED_TALKING);
+    },
 
-  saveFinishedTalking(finshedTalking) {
-    localStorage.setItem(FINISHED_TALKING, finshedTalking);
-  },
+    saveFinishedTalking(finshedTalking) {
+        localStorage.setItem(FINISHED_TALKING, finshedTalking);
+    },
 
-  removeFinishedTalking() {
-    localStorage.removeItem(FINISHED_TALKING);
-  },
+    removeFinishedTalking() {
+        localStorage.removeItem(FINISHED_TALKING);
+    },
 
-  getActiveTable() {
-    return localStorage.getItem(ACTIVE_TABLE);
-},
+    getActiveTable() {
+        return localStorage.getItem(ACTIVE_TABLE);
+    },
 
-saveActiveTable(activeTable) {
-    localStorage.setItem(ACTIVE_TABLE, activeTable);
-},
+    saveActiveTable(activeTable) {
+        localStorage.setItem(ACTIVE_TABLE, activeTable);
+    },
 
-removeActiveTable() {
-    localStorage.removeItem(ACTIVE_TABLE);
-},
+    removeActiveTable() {
+        localStorage.removeItem(ACTIVE_TABLE);
+    },
 
 };
 
-export { OrderService };
+export {OrderService};
 

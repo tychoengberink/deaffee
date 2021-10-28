@@ -1,45 +1,46 @@
 <template>
   <ion-page>
     <ion-content padding>
-      <form novalidate @submit.prevent="onLogin">
+      <form @submit.prevent="onLogin" novalidate>
         <ion-grid>
           <ion-row>
-            <ion-col align-self-center size-md="12" size-lg="12" size-xs="12">
+            <ion-col align-self-center size-lg="12" size-md="12" size-xs="12">
               <ion-img :src="require('@/images/logo.png')"></ion-img>
 
               <ion-item text-center>
-                <ion-label position="stacked" color="primary"
-                  >Your pincode</ion-label
+                <ion-label color="primary" position="stacked"
+                >Your pincode
+                </ion-label
                 >
                 <ion-input
-                  v-model="password"
-                  name="password"
-                  type="password"
-                  data-cy="password"
-                  required
+                    data-cy="password"
+                    name="password"
+                    required
+                    type="password"
+                    v-model="password"
                 ></ion-input>
               </ion-item>
               <ion-text
-                color="danger"
-                v-show="this.errors.passwordNumber && this.submitted"
-                padding-left
+                  color="danger"
+                  padding-left
+                  v-show="this.errors.passwordNumber && this.submitted"
               >
                 Pincode needs to be a number!
               </ion-text>
 
               <ion-text
-                color="danger"
-                v-show="this.errors.passwordEmpty && this.submitted"
-                padding-left
+                  color="danger"
+                  padding-left
+                  v-show="this.errors.passwordEmpty && this.submitted"
               >
                 Pincode cant be empty!
               </ion-text>
 
-              <ion-button type="submit" expand="block">Login</ion-button>
+              <ion-button expand="block" type="submit">Login</ion-button>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col align-self-center size-md="12" size-lg="12" size-xs="12">
+            <ion-col align-self-center size-lg="12" size-md="12" size-xs="12">
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -53,6 +54,7 @@ ion-row {
     text-align: center;
   }
 }
+
 ion-img {
   width: 50%;
   margin-left: 25%;
@@ -61,20 +63,20 @@ ion-img {
 </style>
 <script>
 import {
-  IonPage,
+  IonButton,
+  IonCol,
   IonContent,
   IonGrid,
-  IonRow,
-  IonItem,
-  IonInput,
-  IonText,
-  IonLabel,
-  IonButton,
   IonImg,
-  IonCol,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonPage,
+  IonRow,
+  IonText,
 } from "@ionic/vue";
-import { useRouter } from "vue-router";
-import { mapActions, mapGetters } from "vuex";
+import {useRouter} from "vue-router";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Home",
@@ -96,7 +98,7 @@ export default {
   },
   setup() {
     const router = useRouter();
-    return { router };
+    return {router};
   },
   data() {
     return {
@@ -112,7 +114,7 @@ export default {
 
   ionViewWillEnter() {
     if (!this.isNotFirstTime) {
-      this.router.push({ name: "Register" });
+      this.router.push({name: "Register"});
     }
   },
 
@@ -142,7 +144,7 @@ export default {
 
       if (!errors) {
         this.signIn(this.password, this.userName).then(() => {
-          this.router.push({ name: "Home" });
+          this.router.push({name: "Home"});
           this.submitted = false;
         });
       }

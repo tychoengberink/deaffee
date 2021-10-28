@@ -16,13 +16,13 @@
           <ion-item>
             <ion-label position="stacked">Sentence</ion-label>
             <ion-textarea
-              :disabled="true"
-              v-model="speechToTextOutput"
+                :disabled="true"
+                v-model="speechToTextOutput"
             ></ion-textarea>
             <ion-text
-              color="danger"
-              v-show="this.error && this.submitted"
-              padding-left
+                color="danger"
+                padding-left
+                v-show="this.error && this.submitted"
             >
               Please click the button to generate a sentence!
             </ion-text>
@@ -31,11 +31,13 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button v-if="!listening" expand="block" @click="pushToTalk"
-            >Click to talk</ion-button
+          <ion-button @click="pushToTalk" expand="block" v-if="!listening"
+          >Click to talk
+          </ion-button
           >
-          <ion-button v-if="listening" expand="block" @click="pushToStop"
-            >Click to stop</ion-button
+          <ion-button @click="pushToStop" expand="block" v-if="listening"
+          >Click to stop
+          </ion-button
           >
         </ion-col>
       </ion-row>
@@ -45,27 +47,27 @@
 
 <script>
 import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
   IonButton,
   IonButtons,
-  IonIcon,
-  IonGrid,
-  IonRow,
   IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
   IonItem,
-  IonTextarea,
   IonLabel,
+  IonRow,
   IonText,
+  IonTextarea,
+  IonTitle,
+  IonToolbar,
   modalController,
 } from "@ionic/vue";
-import { closeOutline } from "ionicons/icons";
-import { defineComponent } from "vue";
-import { mapActions } from "vuex";
-import { SpeechRecognition } from "@ionic-native/speech-recognition";
-import { ApiService } from "../../services/api.service";
+import {closeOutline} from "ionicons/icons";
+import {defineComponent} from "vue";
+import {mapActions} from "vuex";
+import {SpeechRecognition} from "@ionic-native/speech-recognition";
+import {ApiService} from "../../services/api.service";
 
 export default defineComponent({
   name: "addTableModal",
@@ -120,10 +122,10 @@ export default defineComponent({
         showPopup: false,
         showPartial: true,
       }).subscribe(
-        (matches) => {
-          this.speechToTextOutput = matches.toString();
-          this.matches = matches;
-        }
+          (matches) => {
+            this.speechToTextOutput = matches.toString();
+            this.matches = matches;
+          }
       );
     },
     pushToStop() {
@@ -138,16 +140,16 @@ export default defineComponent({
       this.listening = false;
 
       ApiService.post("api/sentence", sentence)
-        .then((response) => {
-          sentence.push({ id: response.data.id });
-          this.editConversation.sentences.push(sentence);
-          this.dismissModal();
-          this.submitted = false;
-          this.error = false;
-        })
-        .catch(() => {
-          this.error = true;
-        });
+          .then((response) => {
+            sentence.push({id: response.data.id});
+            this.editConversation.sentences.push(sentence);
+            this.dismissModal();
+            this.submitted = false;
+            this.error = false;
+          })
+          .catch(() => {
+            this.error = true;
+          });
     },
   },
 });

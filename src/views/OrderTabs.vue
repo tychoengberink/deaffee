@@ -3,10 +3,10 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="top">
-        <ion-tab-button tab="details" href="/tabs/order/details">
+        <ion-tab-button href="/tabs/order/details" tab="details">
           <ion-label>Order details</ion-label>
         </ion-tab-button>
-        <ion-tab-button tab="conversation" href="/tabs/order/conversation">
+        <ion-tab-button href="/tabs/order/conversation" tab="conversation">
           <ion-label>Conversation</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -22,16 +22,9 @@ ion-tab-button {
 </style>
 
 <script>
-import {
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  IonLabel,
-  IonPage,
-  IonRouterOutlet,
-} from "@ionic/vue";
-import { clipboardOutline, homeOutline } from "ionicons/icons";
-import { mapGetters } from "vuex";
+import {IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,} from "@ionic/vue";
+import {clipboardOutline, homeOutline} from "ionicons/icons";
+import {mapGetters} from "vuex";
 
 export default {
   name: "TableTabs",
@@ -51,7 +44,6 @@ export default {
     };
   },
 
-  
 
   computed: {
     ...mapGetters("order", ["finishedTalking"]),

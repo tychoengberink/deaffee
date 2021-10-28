@@ -1,20 +1,20 @@
 <template>
   <ion-content>
     <ion-list>
-      <DynamicScroller class="scroller" :items="items" :min-item-size="10">
+      <DynamicScroller :items="items" :min-item-size="10" class="scroller">
         <template v-slot="{ item, index, active }">
           <DynamicScrollerItem
-            :item="item"
-            :active="active"
-            :size-dependencies="[item.text]"
-            :data-index="index"
+              :active="active"
+              :data-index="index"
+              :item="item"
+              :size-dependencies="[item.text]"
           >
             <div>
               <div :class="item.isClient ? 'sentence-right' : 'sentence-left'">
                 {{ item.text }}
                 <br>
                 <ion-button @click="textToSpeech(item.text)" size="small">
-                  <ion-icon :icon="volumeHighOutline" />
+                  <ion-icon :icon="volumeHighOutline"/>
                 </ion-button>
               </div>
             </div>
@@ -26,9 +26,10 @@
 </template>
 
 <script>
-import { IonList, IonContent, IonButton, IonIcon } from "@ionic/vue";
-import { volumeHighOutline } from "ionicons/icons";
-import { TextToSpeech } from "@ionic-native/text-to-speech";
+import {IonButton, IonContent, IonIcon, IonList} from "@ionic/vue";
+import {volumeHighOutline} from "ionicons/icons";
+import {TextToSpeech} from "@ionic-native/text-to-speech";
+
 export default {
   name: "ConversationList",
   components: {
@@ -49,7 +50,7 @@ export default {
 
   methods: {
     textToSpeech(sentence) {
-      TextToSpeech.speak({ text: sentence, locale: "en-US" });
+      TextToSpeech.speak({text: sentence, locale: "en-US"});
     },
   },
 };
@@ -58,8 +59,10 @@ export default {
 <style lang="scss" scoped>
 ion-grid {
   height: 100%;
+
   ion-row.cover-large {
     height: 90%;
+
     ion-col {
       height: 100%;
     }

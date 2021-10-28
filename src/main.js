@@ -1,11 +1,11 @@
-import { createApp } from "vue";
+import {createApp} from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { store } from "./store";
-import { ApiService } from "./services/api.service";
-import { TokenService } from "./services/token.service";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { IonicVue } from "@ionic/vue";
+import {store} from "./store";
+import {ApiService} from "./services/api.service";
+import {TokenService} from "./services/token.service";
+import {ScreenOrientation} from "@ionic-native/screen-orientation";
+import {IonicVue} from "@ionic/vue";
 import VueVirtualScroller from "vue-virtual-scroller";
 
 /* Core CSS required for Ionic components to work properly */
@@ -31,26 +31,26 @@ import "./theme/variables.css";
 import "./theme/global.css";
 
 const app = createApp(App)
-  .use(IonicVue)
-  .use(router)
-  .use(VueVirtualScroller)
-  .use(store);
+    .use(IonicVue)
+    .use(router)
+    .use(VueVirtualScroller)
+    .use(store);
 
 ApiService.init(process.env.VUE_APP_ROOT_API);
 
 if (TokenService.getToken()) {
-  ApiService.setHeader();
-  ApiService.mountRequestInterceptor();
-  ApiService.mount401Interceptor();
+    ApiService.setHeader();
+    ApiService.mountRequestInterceptor();
+    ApiService.mount401Interceptor();
 }
 
 router.isReady().then(() => {
-  app.mount("#app");
+    app.mount("#app");
 });
 
 //Set portrait mode only
 ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT).catch(
-  (error) => {
-    console.log(error);
-  }
+    (error) => {
+        console.log(error);
+    }
 );

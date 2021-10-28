@@ -17,9 +17,9 @@
             <ion-label position="stacked">Product</ion-label>
             <ion-input v-model="product.name"></ion-input>
             <ion-text
-              color="danger"
-              v-show="this.errors.errorName && this.submitted"
-              padding-left
+                color="danger"
+                padding-left
+                v-show="this.errors.errorName && this.submitted"
             >
               Name can not be empty
             </ion-text>
@@ -30,11 +30,11 @@
         <ion-col>
           <ion-item>
             <ion-label position="stacked">Amount</ion-label>
-            <ion-input v-model="product.amount" type="number"></ion-input>
+            <ion-input type="number" v-model="product.amount"></ion-input>
             <ion-text
-              color="danger"
-              v-show="this.errors.errorAmount && this.submitted"
-              padding-left
+                color="danger"
+                padding-left
+                v-show="this.errors.errorAmount && this.submitted"
             >
               Amount can not be empty
             </ion-text>
@@ -45,11 +45,11 @@
         <ion-col>
           <ion-item>
             <ion-label position="stacked">Price</ion-label>
-            <ion-input v-model="product.price" type="number"></ion-input>
+            <ion-input type="number" v-model="product.price"></ion-input>
             <ion-text
-              color="danger"
-              v-show="this.errors.errorPrice && this.submitted"
-              padding-left
+                color="danger"
+                padding-left
+                v-show="this.errors.errorPrice && this.submitted"
             >
               Price can not be empty
             </ion-text>
@@ -58,8 +58,9 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="block" @click="addProductClick"
-            >Add product</ion-button
+          <ion-button @click="addProductClick" expand="block"
+          >Add product
+          </ion-button
           >
         </ion-col>
       </ion-row>
@@ -69,25 +70,25 @@
 
 <script>
 import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
   IonButton,
   IonButtons,
-  IonIcon,
+  IonCol,
+  IonContent,
   IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonLabel,
   IonRow,
   IonText,
-  IonCol,
-  IonItem,
-  IonInput,
-  IonLabel,
+  IonTitle,
+  IonToolbar,
   modalController,
 } from "@ionic/vue";
-import { closeOutline } from "ionicons/icons";
-import { defineComponent } from "vue";
-import { ApiService } from "../../services/api.service";
+import {closeOutline} from "ionicons/icons";
+import {defineComponent} from "vue";
+import {ApiService} from "../../services/api.service";
 
 export default defineComponent({
   name: "addTableModal",
@@ -102,7 +103,7 @@ export default defineComponent({
         errorPrice: false,
         errorAmount: false,
       },
-      product: { name: null, amount: null, price: null },
+      product: {name: null, amount: null, price: null},
     };
   },
   components: {
@@ -159,20 +160,20 @@ export default defineComponent({
           name: this.product.name,
           price: parseInt(this.product.price),
         })
-          .then((response) => {
-            this.addProductToOrder(response.data);
-          })
-          .catch((error) => {
-            if (error.response.status === 500) {
-              ApiService.get("api/product").then((response) => {
-                response.data.forEach((product) => {
-                  if (product.name === this.product.name) {
-                    this.addProductToOrder(product);
-                  }
+            .then((response) => {
+              this.addProductToOrder(response.data);
+            })
+            .catch((error) => {
+              if (error.response.status === 500) {
+                ApiService.get("api/product").then((response) => {
+                  response.data.forEach((product) => {
+                    if (product.name === this.product.name) {
+                      this.addProductToOrder(product);
+                    }
+                  });
                 });
-              });
-            }
-          });
+              }
+            });
       }
     },
 

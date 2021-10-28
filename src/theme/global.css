@@ -1,12 +1,12 @@
-.dialog-modal .modal-wrapper{
+.dialog-modal .modal-wrapper {
     width: 70%;
     height: 50%;
-  }
+}
 
-  .left {
+.left {
     text-align: left;
-  }
+}
 
-  .right {
+.right {
     text-align: right;
-  }
+}

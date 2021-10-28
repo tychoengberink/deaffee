@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import { IonItem, IonLabel } from "@ionic/vue";
-import { mapActions } from "vuex";
-import { useRouter } from "vue-router";
+import {IonItem, IonLabel} from "@ionic/vue";
+import {mapActions} from "vuex";
+import {useRouter} from "vue-router";
 
 export default {
   props: ["table"],
@@ -30,7 +30,7 @@ export default {
 
     itemClick() {
       this.saveActiveTable(this.table.id);
-      this.router.push({ name: "Orders" });
+      this.router.push({name: "Orders"});
     },
   },
 };

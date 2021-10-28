@@ -15,20 +15,20 @@
         <ion-col>
           <ion-item>
             <ion-label position="stacked">Table number</ion-label>
-            <ion-input v-model="tableNumber" type="number"></ion-input>
+            <ion-input type="number" v-model="tableNumber"></ion-input>
           </ion-item>
           <ion-text
-            color="danger"
-            v-show="!this.checkTableExists && this.submitted"
-            padding-left
+              color="danger"
+              padding-left
+              v-show="!this.checkTableExists && this.submitted"
           >
             Table number exists!
           </ion-text>
 
           <ion-text
-            color="danger"
-            v-show="this.tableNumberValid && this.submitted"
-            padding-left
+              color="danger"
+              padding-left
+              v-show="this.tableNumberValid && this.submitted"
           >
             Please fill in a table number
           </ion-text>
@@ -36,8 +36,9 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="block" @click="addTableClick"
-            >Add table</ion-button
+          <ion-button @click="addTableClick" expand="block"
+          >Add table
+          </ion-button
           >
         </ion-col>
       </ion-row>
@@ -47,26 +48,26 @@
 
 <script>
 import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
   IonButton,
   IonButtons,
-  IonIcon,
-  IonGrid,
-  IonRow,
   IonCol,
-  IonItem,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
   IonInput,
+  IonItem,
   IonLabel,
+  IonRow,
   IonText,
+  IonTitle,
+  IonToolbar,
   modalController,
 } from "@ionic/vue";
-import { closeOutline } from "ionicons/icons";
-import { defineComponent } from "vue";
-import { mapActions } from "vuex";
-import { ApiService } from "../../services/api.service";
+import {closeOutline} from "ionicons/icons";
+import {defineComponent} from "vue";
+import {mapActions} from "vuex";
+import {ApiService} from "../../services/api.service";
 
 export default defineComponent({
   name: "addTableModal",
@@ -119,7 +120,7 @@ export default defineComponent({
         await this.saveActiveTable(this.tableNumber);
         this.dismissModal();
         this.submitted = false;
-        return;
+
       }
     },
   },

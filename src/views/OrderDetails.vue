@@ -1,10 +1,10 @@
 <template>
-  <ion-page v-if="loading"> </ion-page>
+  <ion-page v-if="loading"></ion-page>
   <ion-page v-else>
     <ion-header>
       <ion-toolbar>
         <ion-title mode="ios"
-          >Order {{ order.id }} ({{ totalPrice }})
+        >Order {{ order.id }} ({{ totalPrice }})
         </ion-title>
       </ion-toolbar>
     </ion-header>
@@ -13,7 +13,7 @@
         <ion-row>
           <ion-col>
             <ion-list>
-              <ion-item v-for="product in order.products" :key="product.id">
+              <ion-item :key="product.id" v-for="product in order.products">
                 <ion-label class="left">
                   {{ product.name }}
                 </ion-label>
@@ -24,18 +24,18 @@
                   {{ product.amount }}
                 </ion-label>
                 <ion-button
-                  v-if="!this.order.isPaid"
-                  data-cy="editProductButton"
-                  @click="editProduct(product)"
+                    @click="editProduct(product)"
+                    data-cy="editProductButton"
+                    v-if="!this.order.isPaid"
                 >
-                  <ion-icon slot="icon-only" :icon="createOutline"></ion-icon>
+                  <ion-icon :icon="createOutline" slot="icon-only"></ion-icon>
                 </ion-button>
                 <ion-button
-                  data-cy="removeProductButton"
-                  v-if="!this.order.isPaid"
-                  @click="removeProduct(product)"
+                    @click="removeProduct(product)"
+                    data-cy="removeProductButton"
+                    v-if="!this.order.isPaid"
                 >
-                  <ion-icon slot="icon-only" :icon="trashBinOutline"></ion-icon>
+                  <ion-icon :icon="trashBinOutline" slot="icon-only"></ion-icon>
                 </ion-button>
               </ion-item>
             </ion-list>
@@ -44,18 +44,20 @@
         <ion-row>
           <ion-col>
             <ion-button
-              v-if="!this.order.isPaid"
-              expand="block"
-              @click="addProduct"
-              >Add product</ion-button
+                @click="addProduct"
+                expand="block"
+                v-if="!this.order.isPaid"
+            >Add product
+            </ion-button
             >
           </ion-col>
           <ion-col>
             <ion-button
-              v-if="!this.order.isPaid"
-              expand="block"
-              @click="checkOutClick"
-              >Check out</ion-button
+                @click="checkOutClick"
+                expand="block"
+                v-if="!this.order.isPaid"
+            >Check out
+            </ion-button
             >
           </ion-col>
         </ion-row>
@@ -72,27 +74,27 @@
 
 <script>
 import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonLabel,
-  IonItem,
-  IonList,
-  IonContent,
   IonButton,
-  IonRow,
   IonCol,
+  IonContent,
   IonGrid,
+  IonHeader,
   IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonRow,
+  IonTitle,
+  IonToolbar,
   modalController,
 } from "@ionic/vue";
-import { closeOutline, createOutline, trashBinOutline } from "ionicons/icons";
+import {closeOutline, createOutline, trashBinOutline} from "ionicons/icons";
 import EditProductAmountModal from "../components/modal/EditProductAmountModal.vue";
 import AddProductModal from "../components/modal/AddProductModal.vue";
-import { ApiService } from "../services/api.service";
-import { useRouter } from "vue-router";
-import { mapGetters } from "vuex";
+import {ApiService} from "../services/api.service";
+import {useRouter} from "vue-router";
+import {mapGetters} from "vuex";
 import DeleteProductModal from "../components/modal/DeleteProductModal.vue";
 
 export default {
@@ -116,7 +118,7 @@ export default {
   computed: {
     ...mapGetters("order", ["activeOrder"]),
 
-    totalPrice: function() {
+    totalPrice: function () {
       var total = 0;
       this.order.products.forEach((product) => {
         total += product.price * product.amount;
@@ -153,7 +155,7 @@ export default {
 
     async editProduct(product) {
       const modal = await modalController.create({
-        componentProps: { product: product },
+        componentProps: {product: product},
         component: EditProductAmountModal,
         cssClass: "dialog-modal",
       });
@@ -162,7 +164,7 @@ export default {
 
     async addProduct() {
       const modal = await modalController.create({
-        componentProps: { order: this.order },
+        componentProps: {order: this.order},
         component: AddProductModal,
         cssClass: "dialog-modal",
       });
@@ -178,7 +180,7 @@ export default {
 
     async removeProduct(product) {
       const modal = await modalController.create({
-        componentProps: { product: product, order: this.order },
+        componentProps: {product: product, order: this.order},
         component: DeleteProductModal,
         cssClass: "dialog-modal",
       });

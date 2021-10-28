@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <main-header :title="'Welcome ' + userName + '!'" />
+    <main-header :title="'Welcome ' + userName + '!'"/>
     <ion-grid fixed>
       <ion-row>
         <ion-col>
@@ -10,7 +10,7 @@
       <ion-row class="ion-align-items-start cover-large">
         <ion-col>
           <ion-content>
-            <table-list :tables="tables" />
+            <table-list :tables="tables"/>
           </ion-content>
         </ion-col>
       </ion-row>
@@ -21,8 +21,10 @@
 <style lang="scss" scoped>
 ion-grid {
   height: 100%;
+
   ion-row.cover-large {
     height: 95%;
+
     ion-col {
       height: 100%;
     }
@@ -31,21 +33,13 @@ ion-grid {
 </style>
 
 <script>
-import {
-  IonPage,
-  IonTitle,
-  IonContent,
-  IonGrid,
-  IonRow,
-  IonCol,
-  modalController,
-} from "@ionic/vue";
-import { add } from "ionicons/icons";
-import { mapActions, mapGetters } from "vuex";
-import { useRouter } from "vue-router";
+import {IonCol, IonContent, IonGrid, IonPage, IonRow, IonTitle, modalController,} from "@ionic/vue";
+import {add} from "ionicons/icons";
+import {mapActions, mapGetters} from "vuex";
+import {useRouter} from "vue-router";
 import addTableModal from "@/components/modal/AddTableModal.vue";
 import TableList from "@/components/TableList.vue";
-import { ApiService } from "../services/api.service";
+import {ApiService} from "../services/api.service";
 import MainHeader from "../components/MainHeader.vue";
 
 export default {
@@ -96,7 +90,7 @@ export default {
 
       if (this.activeTable) {
         this.saveActiveTable(this.activeTable);
-        this.router.push({ name: "Orders" });
+        this.router.push({name: "Orders"});
       }
     },
   },

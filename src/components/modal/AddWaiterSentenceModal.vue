@@ -17,9 +17,9 @@
             <ion-label position="stacked">Sentence</ion-label>
             <ion-textarea v-model="waiterSentence"></ion-textarea>
             <ion-text
-              color="danger"
-              v-show="this.error && this.submitted"
-              padding-left
+                color="danger"
+                padding-left
+                v-show="this.error && this.submitted"
             >
               Please type a sentence!
             </ion-text>
@@ -28,8 +28,9 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="block" @click="addWaiterSentence"
-            >Add sentence</ion-button
+          <ion-button @click="addWaiterSentence" expand="block"
+          >Add sentence
+          </ion-button
           >
         </ion-col>
       </ion-row>
@@ -39,26 +40,26 @@
 
 <script>
 import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
   IonButton,
   IonButtons,
-  IonIcon,
-  IonGrid,
-  IonRow,
   IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
   IonItem,
-  IonTextarea,
   IonLabel,
+  IonRow,
   IonText,
+  IonTextarea,
+  IonTitle,
+  IonToolbar,
   modalController,
 } from "@ionic/vue";
-import { closeOutline } from "ionicons/icons";
-import { defineComponent } from "vue";
-import { mapActions } from "vuex";
-import { ApiService } from "../../services/api.service";
+import {closeOutline} from "ionicons/icons";
+import {defineComponent} from "vue";
+import {mapActions} from "vuex";
+import {ApiService} from "../../services/api.service";
 
 export default defineComponent({
   name: "addTableModal",
@@ -105,16 +106,16 @@ export default defineComponent({
 
       this.listening = false;
       ApiService.post("api/sentence", sentence)
-        .then((response) => {
-          sentence.push({ id: response.data.id });
-          this.editConversation.sentences.push(sentence);
-          this.dismissModal();
-          this.submitted = false;
-          this.error = false;
-        })
-        .catch(() => {
-          this.error = true;
-        });
+          .then((response) => {
+            sentence.push({id: response.data.id});
+            this.editConversation.sentences.push(sentence);
+            this.dismissModal();
+            this.submitted = false;
+            this.error = false;
+          })
+          .catch(() => {
+            this.error = true;
+          });
     },
   },
 });

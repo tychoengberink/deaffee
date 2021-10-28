@@ -1,6 +1,6 @@
 <template>
   <ion-item @click="openDetails">
-    <ion-label class="left"> Order {{ order.id }} </ion-label>
+    <ion-label class="left"> Order {{ order.id }}</ion-label>
     <ion-label class="right">
       {{ order.payed ? "Payed" : "Not payed" }}
     </ion-label>
@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { IonItem, IonLabel } from "@ionic/vue";
-import { useRouter } from "vue-router";
-import { mapActions } from "vuex";
+import {IonItem, IonLabel} from "@ionic/vue";
+import {useRouter} from "vue-router";
+import {mapActions} from "vuex";
 
 export default {
   props: ["order"],
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     ...mapActions("order", ["saveActiveOrder"]),
-    
+
     async openDetails() {
       await this.saveActiveOrder(this.order.id);
       this.router.push({

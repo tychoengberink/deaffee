@@ -1,14 +1,14 @@
 <template>
   <ion-content>
     <ion-list>
-      <table-list-item v-for="table in tables" :key="table.id" :table="table">
+      <table-list-item :key="table.id" :table="table" v-for="table in tables">
       </table-list-item>
     </ion-list>
   </ion-content>
 </template>
 
 <script>
-import { IonList, IonContent } from "@ionic/vue";
+import {IonContent, IonList} from "@ionic/vue";
 import TableListItem from "./TableListItem.vue";
 
 export default {

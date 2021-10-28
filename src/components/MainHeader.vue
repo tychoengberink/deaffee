@@ -2,14 +2,14 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-button data-cy="settingsButton" @click="settingsClick">
-          <ion-icon color="primary" :icon="settingsOutline"></ion-icon>
+        <ion-button @click="settingsClick" data-cy="settingsButton">
+          <ion-icon :icon="settingsOutline" color="primary"></ion-icon>
         </ion-button>
       </ion-buttons>
       <ion-title mode="ios">{{ title }}</ion-title>
       <ion-buttons data-cy="lockButton" slot="end">
         <ion-button @click="lockClick">
-          <ion-icon color="primary" :icon="lockClosedOutline"></ion-icon>
+          <ion-icon :icon="lockClosedOutline" color="primary"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -17,17 +17,10 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
-import {
-  IonHeader,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonIcon,
-  IonTitle,
-} from "@ionic/vue";
-import { settingsOutline, lockClosedOutline } from "ionicons/icons";
-import { mapActions } from "vuex";
+import {useRouter} from "vue-router";
+import {IonButton, IonButtons, IonHeader, IonIcon, IonTitle, IonToolbar,} from "@ionic/vue";
+import {lockClosedOutline, settingsOutline} from "ionicons/icons";
+import {mapActions} from "vuex";
 
 export default {
   name: "MainHeader",
@@ -53,12 +46,12 @@ export default {
 
     async lockClick() {
       await this.signOut().then(() => {
-        this.router.push({ name: "Login" });
+        this.router.push({name: "Login"});
       });
     },
 
     settingsClick() {
-      this.router.push({ name: "Settings" });
+      this.router.push({name: "Settings"});
     },
   },
 };

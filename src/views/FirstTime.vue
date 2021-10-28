@@ -2,8 +2,8 @@
   <ion-page>
     <ion-content :fullscreen="true">
       <ion-grid>
-        <br />
-        <br />
+        <br/>
+        <br/>
 
         <ion-row>
           <ion-col>
@@ -13,29 +13,29 @@
         <ion-row>
           <ion-col>
             <ion-item>
-              <ion-label position="stacked" color="primary">Name</ion-label>
+              <ion-label color="primary" position="stacked">Name</ion-label>
               <ion-input
-                v-model="name"
-                name="name"
-                type="text"
-                data-cy="name"
-                required
+                  data-cy="name"
+                  name="name"
+                  required
+                  type="text"
+                  v-model="name"
               ></ion-input>
               <ion-text
-                color="danger"
-                v-show="this.errors.errorName"
-                padding-left
+                  color="danger"
+                  padding-left
+                  v-show="this.errors.errorName"
               >
                 Name is required
               </ion-text>
-              <ion-text color="danger" v-show="this.uniqueError" padding-left>
+              <ion-text color="danger" padding-left v-show="this.uniqueError">
                 Name is not unique!
               </ion-text>
             </ion-item>
           </ion-col>
         </ion-row>
-        <br />
-        <br />
+        <br/>
+        <br/>
         <ion-row>
           <ion-col>
             <ion-title>For security reasons we need a pin</ion-title>
@@ -44,70 +44,71 @@
         <ion-row>
           <ion-col>
             <ion-item>
-              <ion-label position="stacked" color="primary">PIN</ion-label>
+              <ion-label color="primary" position="stacked">PIN</ion-label>
               <ion-input
-                v-model="pin"
-                name="pin"
-                type="password"
-                pattern="[0-9]*"
-                data-cy="pin"
-                required
+                  data-cy="pin"
+                  name="pin"
+                  pattern="[0-9]*"
+                  required
+                  type="password"
+                  v-model="pin"
               ></ion-input>
               <ion-text
-                color="danger"
-                v-show="this.errors.errorNumberPin"
-                padding-left
+                  color="danger"
+                  padding-left
+                  v-show="this.errors.errorNumberPin"
               >
                 Pin is not a number
               </ion-text>
               <ion-text
-                color="danger"
-                v-show="this.errors.errorPin"
-                padding-left
+                  color="danger"
+                  padding-left
+                  v-show="this.errors.errorPin"
               >
                 Pin is required
               </ion-text>
               <ion-text
-                data-cy="errorSame"
-                color="danger"
-                v-show="this.errors.same"
-                padding-left
+                  color="danger"
+                  data-cy="errorSame"
+                  padding-left
+                  v-show="this.errors.same"
               >
                 Pin and confirmPin need to be the same
               </ion-text>
             </ion-item>
 
             <ion-item>
-              <ion-label position="stacked" color="primary"
-                >Retype PIN</ion-label
+              <ion-label color="primary" position="stacked"
+              >Retype PIN
+              </ion-label
               >
               <ion-input
-                v-model="confirmPin"
-                name="confirmPin"
-                type="password"
-                pattern="[0-9]*"
-                data-cy="confirmPin"
-                required
+                  data-cy="confirmPin"
+                  name="confirmPin"
+                  pattern="[0-9]*"
+                  required
+                  type="password"
+                  v-model="confirmPin"
               ></ion-input>
               <ion-text
-                color="danger"
-                v-show="this.errors.errorConfirmNumberPin"
-                padding-left
+                  color="danger"
+                  padding-left
+                  v-show="this.errors.errorConfirmNumberPin"
               >
                 confirmPin is not a number
               </ion-text>
               <ion-text
-                color="danger"
-                v-show="this.errors.errorConfirmPin"
-                padding-left
+                  color="danger"
+                  padding-left
+                  v-show="this.errors.errorConfirmPin"
               >
                 confirmPin is required
               </ion-text>
               <ion-text
-                data-cy="errorSame"
-                color="danger"
-                v-show="this.errors.same"
-                padding-left
+                  color="danger"
+                  data-cy="errorSame"
+                  padding-left
+                  v-show="this.errors.same"
               >
                 Pin and confirmPin need to be the same
               </ion-text>
@@ -116,7 +117,7 @@
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="12">
-            <ion-button expand="block" @click="clickRegister">
+            <ion-button @click="clickRegister" expand="block">
               Register
             </ion-button>
           </ion-col>
@@ -128,20 +129,20 @@
 
 <script>
 import {
-  IonPage,
-  IonTitle,
+  IonButton,
+  IonCol,
   IonContent,
   IonGrid,
-  IonRow,
-  IonCol,
-  IonItem,
   IonInput,
+  IonItem,
   IonLabel,
-  IonButton,
+  IonPage,
+  IonRow,
   IonText,
+  IonTitle,
 } from "@ionic/vue";
-import { useRouter } from "vue-router";
-import { mapActions, mapGetters } from "vuex";
+import {useRouter} from "vue-router";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Home",
@@ -247,21 +248,21 @@ export default {
           password: pin,
         });
         signUp
-          .then(() => {
-            this.setUserName(name);
-            this.turnOffFirstTime();
-            this.uniqueError = false;
+            .then(() => {
+              this.setUserName(name);
+              this.turnOffFirstTime();
+              this.uniqueError = false;
 
-            let signIn = this.signIn(pin, name);
-            signIn.then(() => {
-              this.router.push("/tabs/home");
+              let signIn = this.signIn(pin, name);
+              signIn.then(() => {
+                this.router.push("/tabs/home");
+              });
+            })
+            .catch((error) => {
+              if (error.response.status === 500) {
+                this.uniqueError = true;
+              }
             });
-          })
-          .catch((error) => {
-            if (error.response.status === 500) {
-              this.uniqueError = true;
-            }
-          });
       }
     },
   },

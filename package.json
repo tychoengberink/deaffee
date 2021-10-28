@@ -18,7 +18,6 @@
     "@capacitor/keyboard": "1.0.3",
     "@capacitor/status-bar": "1.0.3",
     "@ionic-native/core": "^5.36.0",
-    "@ionic-native/device": "^5.36.0",
     "@ionic-native/screen-orientation": "^5.36.0",
     "@ionic-native/speech-recognition": "^5.36.0",
     "@ionic-native/text-to-speech": "^5.36.0",
@@ -28,15 +27,15 @@
     "cordova-plugin-screen-orientation": "^3.0.2",
     "cordova-plugin-speechrecognition": "^1.2.0",
     "cordova-plugin-tts": "^0.2.3",
-    "core-js": "^3.6.5",
     "es6-promise-plugin": "^4.2.2",
     "faker": "^5.5.3",
+    "inject-loader": "^4.0.1",
     "qs": "^6.10.1",
+    "sinon": "^11.1.2",
     "vue": "^3.2.1",
     "vue-router": "^4.0.0-0",
     "vue-virtual-scroller": "^2.0.0-alpha.1",
-    "vuex": "^4.0.0-0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex": "^4.0.0-0"
   },
   "devDependencies": {
     "@capacitor/cli": "3.2.3",

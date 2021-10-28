@@ -3,17 +3,17 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="home" @click="homeClick" href="/tabs/home">
-          <ion-icon :icon="homeOutline" />
+        <ion-tab-button @click="homeClick" href="/tabs/home" tab="home">
+          <ion-icon :icon="homeOutline"/>
           <ion-label>Home</ion-label>
         </ion-tab-button>
 
         <ion-tab-button
-          :disabled="!this.activeTable"
-          tab="tabledetails"
-          href="/tabs/order"
+            :disabled="!this.activeTable"
+            href="/tabs/order"
+            tab="tabledetails"
         >
-          <ion-icon :icon="clipboardOutline" />
+          <ion-icon :icon="clipboardOutline"/>
           <ion-label>Order</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -22,17 +22,9 @@
 </template>
 
 <script>
-import {
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  IonLabel,
-  IonIcon,
-  IonPage,
-  IonRouterOutlet,
-} from "@ionic/vue";
-import { clipboardOutline, homeOutline } from "ionicons/icons";
-import { mapGetters } from "vuex";
+import {IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,} from "@ionic/vue";
+import {clipboardOutline, homeOutline} from "ionicons/icons";
+import {mapGetters} from "vuex";
 
 export default {
   name: "Tabs",
@@ -57,7 +49,8 @@ export default {
   },
 
   methods: {
-    homeClick() {},
+    homeClick() {
+    },
   },
 };
 </script>

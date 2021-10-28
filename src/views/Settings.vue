@@ -5,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title mode="ios">Settings </ion-title>
+        <ion-title mode="ios">Settings</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -34,13 +34,13 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="3"> </ion-col>
+          <ion-col size="3"></ion-col>
           <ion-col size="4">
             <ion-button :disabled="true" @click="savePin">
               Not yet supported
             </ion-button>
           </ion-col>
-          <ion-col size="3"> </ion-col>
+          <ion-col size="3"></ion-col>
         </ion-row>
       </ion-grid>
     </ion-content>
@@ -49,20 +49,20 @@
 
 <script>
 import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButtons,
   IonBackButton,
-  IonInput,
   IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonInput,
   IonItem,
   IonLabel,
+  IonPage,
   IonRow,
-  IonCol,
-  IonGrid,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/vue";
 
 export default {
