@@ -9,29 +9,34 @@
 
               <ion-item text-center>
                 <ion-label color="primary" position="stacked"
-                >Your pincode
-                </ion-label
-                >
+                  >Your pincode
+                </ion-label>
                 <ion-input
-                    data-cy="password"
-                    name="password"
-                    required
-                    type="password"
-                    v-model="password"
+                  data-cy="password"
+                  name="password"
+                  required
+                  type="password"
+                  v-model="password"
                 ></ion-input>
               </ion-item>
               <ion-text
-                  color="danger"
-                  padding-left
-                  v-show="this.errors.passwordNumber && this.submitted"
+                color="danger"
+                padding-left
+                v-show="this.errors.passwordNumber && this.submitted"
               >
                 Pincode needs to be a number!
               </ion-text>
-
               <ion-text
-                  color="danger"
-                  padding-left
-                  v-show="this.errors.passwordEmpty && this.submitted"
+                color="danger"
+                padding-left
+                v-show="this.passwordWrong && this.submitted"
+              >
+                Pincode is wrong!
+              </ion-text>
+              <ion-text
+                color="danger"
+                padding-left
+                v-show="this.errors.passwordEmpty && this.submitted"
               >
                 Pincode cant be empty!
               </ion-text>
@@ -75,8 +80,8 @@ import {
   IonRow,
   IonText,
 } from "@ionic/vue";
-import {useRouter} from "vue-router";
-import {mapActions, mapGetters} from "vuex";
+import { useRouter } from "vue-router";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -98,7 +103,7 @@ export default {
   },
   setup() {
     const router = useRouter();
-    return {router};
+    return { router };
   },
   data() {
     return {
@@ -107,6 +112,7 @@ export default {
         passwordEmpty: false,
         passwordNumber: false,
       },
+      passwordWrong: false,
       submitted: false,
       img: null,
     };
@@ -114,7 +120,7 @@ export default {
 
   ionViewWillEnter() {
     if (!this.isNotFirstTime) {
-      this.router.push({name: "Register"});
+      this.router.push({ name: "Register" });
     }
   },
 
@@ -143,10 +149,18 @@ export default {
       }
 
       if (!errors) {
-        this.signIn(this.password, this.userName).then(() => {
-          this.router.push({name: "Home"});
-          this.submitted = false;
-        });
+        this.passwordWrong = false;
+        this.signIn(this.password, this.userName)
+          .then(() => {
+            this.router.push({ name: "Home" });
+            this.submitted = false;
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 400) {
+              this.passwordWrong = true;
+            }
+          });
       }
     },
   },

@@ -1,4 +1,3 @@
-import { mount } from "@vue/test-utils";
 import { TokenService } from "@/services/token.service";
 
 const faker = require("faker");

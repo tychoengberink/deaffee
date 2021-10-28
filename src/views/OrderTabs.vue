@@ -24,7 +24,6 @@ ion-tab-button {
 <script>
 import {IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,} from "@ionic/vue";
 import {clipboardOutline, homeOutline} from "ionicons/icons";
-import {mapGetters} from "vuex";
 
 export default {
   name: "TableTabs",
@@ -42,11 +41,6 @@ export default {
       clipboardOutline,
       homeOutline,
     };
-  },
-
-
-  computed: {
-    ...mapGetters("order", ["finishedTalking"]),
   },
 };
 </script>

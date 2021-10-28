@@ -6,25 +6,19 @@
           <ion-icon :icon="closeOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title>Delete product</ion-title>
+      <ion-title>Delete product?</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
     <ion-grid>
       <ion-row>
-        <ion-col>
-          <ion-title position="stacked"
-          >Delete this product?
-          </ion-title
-          >
-        </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col>
-          <ion-button @click="dismissModal"> No</ion-button>
+        <ion-col size="6">
+          <ion-button expand="block" @click="dismissModal"> No</ion-button>
         </ion-col>
-        <ion-col>
-          <ion-button @click="deleteProductClick"> Yes</ion-button>
+       <ion-col size="6">
+          <ion-button expand="block" @click="deleteProductClick"> Yes</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

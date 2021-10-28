@@ -182,7 +182,7 @@ export default {
       const modal = await modalController.create({
         componentProps: {product: product, order: this.order},
         component: DeleteProductModal,
-        cssClass: "dialog-modal",
+        cssClass: "small-dialog-modal",
       });
       await modal.present();
     },

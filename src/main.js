@@ -7,6 +7,8 @@ import {TokenService} from "./services/token.service";
 import {ScreenOrientation} from "@ionic-native/screen-orientation";
 import {IonicVue} from "@ionic/vue";
 import VueVirtualScroller from "vue-virtual-scroller";
+import { SplashScreen } from '@capacitor/splash-screen';
+
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/vue/css/core.css";
@@ -54,3 +56,6 @@ ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT).catch(
         console.log(error);
     }
 );
+
+SplashScreen.hide();
+

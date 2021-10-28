@@ -18,7 +18,7 @@ describe("Register", () => {
     cy.contains("ion-title", "Welcome " + name);
   });
 
-  it("register throws unique error", () => {
+  it("throws unique error", () => {
     let name = faker.name.firstName();
     let code = faker.datatype.number({ min: 1000, max: 9999 });
 
@@ -48,7 +48,7 @@ describe("Register", () => {
     cy.contains("ion-text", "Name is not unique!");
   });
 
-  it("register throws empty error", () => {
+  it("throws empty error", () => {
     cy.visit("/register");
 
     cy.get("ion-button").click();
@@ -58,7 +58,7 @@ describe("Register", () => {
     cy.contains("ion-text", "confirmPin is required");
   });
 
-  it("register throws not the same error", () => {
+  it("throws not the same error", () => {
     let name = faker.name.firstName();
     let code = faker.datatype.number({ min: 1000, max: 9999 });
     let code2 = faker.datatype.number({ min: 1000, max: 9999 });
