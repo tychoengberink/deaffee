@@ -1,9 +1,12 @@
-# Deaffee Installation guide
+# Deaffee Default Installation guide
 1. Open a terminal and type "npm install -g @ionic/cli" 
 2. Type "npm install" in the project folder
 3. Use the command "ionic capacitor run android -l --external" to run the app on a emulator or with a phone that is connected and trusted with your pc.
 
-
+# Deaffee Test Installation guide
+1. Type "npm install" in the project folder
+2. Type "npm run test:e2e" for e2e tests.
+3. Type "npm run test:unit" for unit tests.
 
 # Alternative root url etc.
 Our application uses the .env file to get the root url and the client id and client secret.

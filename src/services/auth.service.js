@@ -1,4 +1,4 @@
-//Used from https://www.djamware.com/post/5fc19e3e77862f22905c7f03/ionic-5-tutorial-oauth2-login-example-vue
+//Inspiration from https://www.djamware.com/post/5fc19e3e77862f22905c7f03/ionic-5-tutorial-oauth2-login-example-vue
 
 import {ApiService} from "./api.service";
 import {TokenService} from "./token.service";
@@ -23,11 +23,15 @@ const AuthService = {
                 client_secret: process.env.VUE_APP_CLIENT_SECRET,
             }),
         };
+        //Do request
         const response = await ApiService.customRequest(requestData);
+        //Save token to storage
         TokenService.saveToken(response.data.access_token);
+        //Save refresh token to storage
         TokenService.saveRefreshToken(response.data.refresh_token);
+        //Set logged in bearer header
         ApiService.setHeader();
-
+        //Mount fallback.
         ApiService.mount401Interceptor();
 
         return response.data.access_token;
@@ -41,7 +45,7 @@ const AuthService = {
             data: {
                 username: username,
                 password: password,
-                name: "Kees",
+                name: username,
                 role_id: 1,
             },
         };

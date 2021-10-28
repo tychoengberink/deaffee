@@ -123,6 +123,7 @@ export default defineComponent({
         showPartial: true,
       }).subscribe(
           (matches) => {
+            //Set match to v-model
             this.speechToTextOutput = matches.toString();
             this.matches = matches;
           }

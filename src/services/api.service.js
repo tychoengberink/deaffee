@@ -1,4 +1,4 @@
-//Used from https://www.djamware.com/post/5fc19e3e77862f22905c7f03/ionic-5-tutorial-oauth2-login-example-vue
+//Inspiration from https://www.djamware.com/post/5fc19e3e77862f22905c7f03/ionic-5-tutorial-oauth2-login-example-vue
 
 import axios from "axios";
 import {store} from "@/store";
@@ -44,6 +44,7 @@ const ApiService = {
     },
 
     mountRequestInterceptor() {
+        //Set interceptor so there is an loading indicator.
         this._requestInterceptor = axios.interceptors.request.use(
             async (config) => {
                 const loading = await loadingController.create({
@@ -59,6 +60,7 @@ const ApiService = {
     },
 
     mount401Interceptor() {
+        //Set interceptor so if there is an 401 try to reauthenticate
         this._401interceptor = axios.interceptors.response.use(
             (response) => {
                 return response;
