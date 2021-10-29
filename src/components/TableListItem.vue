@@ -1,7 +1,7 @@
 <template>
   <ion-item @click="itemClick">
     <ion-label>
-      {{ table.id }}
+      Tafel {{ table.id }}
     </ion-label>
   </ion-item>
 </template>

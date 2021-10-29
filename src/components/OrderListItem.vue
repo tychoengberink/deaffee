@@ -2,7 +2,7 @@
   <ion-item @click="openDetails">
     <ion-label class="left"> Order {{ order.id }}</ion-label>
     <ion-label class="right">
-      {{ order.payed ? "Payed" : "Not payed" }}
+      {{ order.isPaid ? "Payed" : "Not payed" }}
     </ion-label>
   </ion-item>
 </template>

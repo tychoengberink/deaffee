@@ -130,6 +130,7 @@ export default {
 
     onLogin() {
       this.submitted = true;
+
       if (!this.password) {
         this.errors.passwordEmpty = true;
       } else {

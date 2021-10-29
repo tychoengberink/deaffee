@@ -168,7 +168,7 @@ export default defineComponent({
                 ApiService.get("api/product").then((response) => {
                   response.data.forEach((product) => {
                     if (product.name === this.product.name) {
-                      this.addProductToOrder(product);
+                      this.editProductInOrder(product)
                     }
                   });
                 });
@@ -188,6 +188,25 @@ export default defineComponent({
         this.dismissModal();
       });
     },
+
+    editProductInOrder(product) {
+      ApiService.post("api/order/" + this.order.id + "/product", {
+        product_id: product.id,
+        amount: this.product.amount,
+      }).then(() => {
+        this.submitted = false;
+        product.amount = this.product.amount;
+
+        this.editOrder.products.forEach((loopProduct) => {
+          if(loopProduct.id == product.id) {
+            loopProduct.amount = parseInt(loopProduct.amount) + parseInt(product.amount);
+          }
+        }
+        )
+
+        this.dismissModal();
+      });
+    }
   },
 });
 </script>
